@@ -1,0 +1,27 @@
+{
+  "chart": {
+    "result": [
+      {
+        "meta": {
+          "currency": "CNY",
+          "symbol": "510300.SS",
+          "exchangeName": "SHH"
+        },
+        "timestamp": [1767312000, 1767398400],
+        "indicators": {
+          "quote": [
+            {
+              "close": [4.01, 4.08]
+            }
+          ],
+          "adjclose": [
+            {
+              "adjclose": [4.01, 4.08]
+            }
+          ]
+        }
+      }
+    ],
+    "error": null
+  }
+}

@@ -1,0 +1,2 @@
+input_rows,output_rows,duplicates_removed,invalid_prices_removed,missing_close_removed,start_date,end_date,shared_window_rows,shared_window_start,shared_window_end
+3630,3630,0,0,0,2023-08-14,2026-08-12,725,2023-08-15,2026-08-12

@@ -1,0 +1,11 @@
+portfolio,symbol,weight
+equal_weight,159915.SZ,0.2
+equal_weight,510300.SS,0.2
+equal_weight,510500.SS,0.2
+equal_weight,511010.SS,0.2
+equal_weight,518880.SS,0.2
+minimum_volatility,159915.SZ,0.2
+minimum_volatility,510300.SS,0.2
+minimum_volatility,510500.SS,0.2
+minimum_volatility,511010.SS,0.2
+minimum_volatility,518880.SS,0.2
