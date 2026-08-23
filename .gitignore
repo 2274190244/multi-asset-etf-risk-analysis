@@ -1,0 +1,27 @@
+# Python bytecode and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and build artifacts
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Local secrets and Streamlit credentials
+.env
+.streamlit/secrets.toml
+
+# Legacy mutable output; the verified evidence package stays tracked
+/output/
+
+# Local worktrees and editor files
+/.worktrees/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
