@@ -6,6 +6,36 @@ equal-weight and long-only minimum-volatility portfolios, and packages the resul
 for SQLite analysis and Power BI. Yahoo Finance remains available as a per-asset
 fallback if the primary provider fails.
 
+## Interactive Dashboard / 中文在线看板
+
+The recruiter-facing Streamlit dashboard reads only the canonical
+`output_verified` package. It presents five ETF return paths, risk metrics,
+correlations, equal-weight and minimum-volatility portfolio results, allocation
+weights, and data-quality evidence without making live market-data requests.
+
+![Chinese multi-asset ETF risk dashboard](docs/assets/streamlit-dashboard.png)
+
+Run the dashboard from the repository root:
+
+```powershell
+python -m pip install -r requirements.txt
+python -m streamlit run streamlit_app.py
+```
+
+The local page opens at `http://localhost:8501`.
+
+### Deploy on Streamlit Community Cloud
+
+1. Push the latest `main` branch to GitHub.
+2. Sign in at [share.streamlit.io](https://share.streamlit.io/) with GitHub and select **Create app**.
+3. Set the repository to `2274190244/multi-asset-etf-risk-analysis`.
+4. Set the branch to `main` and the entrypoint to `streamlit_app.py`.
+5. Select Python 3.12 in Advanced settings, then deploy. No secrets are required.
+6. Add the generated `streamlit.app` URL to the GitHub About field and the resume project link.
+
+The root `requirements.txt`, `.streamlit/config.toml`, verified CSV files, and app
+entrypoint are included so Community Cloud can build the page directly from GitHub.
+
 ## Assets
 
 | Symbol | Exposure |
