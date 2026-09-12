@@ -19,7 +19,10 @@ SELECT
     symbol,
     date AS month_end_date,
     close AS month_end_close,
-    close / LAG(close) OVER (PARTITION BY symbol ORDER BY date) - 1.0 AS monthly_return
+    CASE WHEN strftime('%Y-%m', date) = strftime('%Y-%m',
+        date(LAG(date) OVER (PARTITION BY symbol ORDER BY date), 'start of month', '+1 month'))
+    THEN close / LAG(close) OVER (PARTITION BY symbol ORDER BY date) - 1.0
+    ELSE NULL END AS monthly_return
 FROM monthly_prices
 ORDER BY symbol, month_end_date;
 

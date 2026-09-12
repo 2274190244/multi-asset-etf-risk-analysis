@@ -20,7 +20,9 @@ from portfolio_analysis.data_source import (
     fetch_asset_prices,
     fetch_eastmoney_asset_prices,
 )
-from portfolio_analysis.metrics import asset_metrics, daily_returns
+from portfolio_analysis.metrics import asset_metrics, daily_returns, RISK_METRICS
+from portfolio_analysis.quality import assess_quality
+from portfolio_analysis.portfolios import split_returns
 from portfolio_analysis.portfolios import (
     PortfolioOptimizationError,
     equal_weights,
@@ -30,13 +32,6 @@ from portfolio_analysis.portfolios import (
 from portfolio_analysis.storage import write_analysis_database
 
 
-RISK_METRICS = (
-    "annualized_return",
-    "annualized_volatility",
-    "sharpe_ratio",
-    "maximum_drawdown",
-    "historical_var",
-)
 
 
 class PipelineError(RuntimeError):
@@ -57,15 +52,24 @@ def run_pipeline(
     end: date,
     output_dir: str | Path,
     session: Any = None,
+    *, price_data: pd.DataFrame | None = None,
+    train_fraction: float = 0.7,
+    risk_free_rate: float = 0.02,
+    sessions_by_symbol=None,
+    status_by_key=None,
 ) -> PipelineResult:
     """Fetch all configured assets and build the SQLite and Power BI package."""
     output_path = Path(output_dir)
     market_session = session if session is not None else create_market_session()
 
+    if start > end:
+        raise PipelineError("Requested start must not exceed end")
+    if output_path.exists():
+        raise PipelineError(f"Output destination already exists: {output_path}. Choose a new versioned output directory.")
     frames = []
     failures = {}
     data_providers = {}
-    for asset in ASSETS:
+    for asset in (ASSETS if price_data is None else []):
         try:
             frame = fetch_eastmoney_asset_prices(asset, start, end, market_session)
             provider = "eastmoney"
@@ -94,73 +98,124 @@ def run_pipeline(
             },
         )
 
-    prices, quality = clean_prices(pd.concat(frames, ignore_index=True))
-    returns = daily_returns(prices)
-    metrics = _asset_metrics_table(returns)
-
-    shared_returns = returns.dropna(axis=0, how="any")
-    if shared_returns.empty:
-        raise PipelineError("No complete five-asset return window is available")
+    raw_prices = pd.concat(frames, ignore_index=True) if price_data is None else price_data.copy()
+    if set(raw_prices.symbol) != {a.symbol for a in ASSETS}:
+        raise PipelineError("All five configured assets are required")
+    provenance_columns = ["symbol", "source", "price_basis", "retrieval_timestamp",
+                          "requested_start", "requested_end"]
+    if not set(provenance_columns).issubset(raw_prices):
+        raise PipelineError("Prices require persisted source and request metadata")
+    for field in provenance_columns:
+        if raw_prices[field].isna().any() or raw_prices[field].astype(str).str.strip().eq("").any():
+            raise ValueError(f"Invalid source metadata field: {field}")
+    if not np.isfinite(risk_free_rate) or risk_free_rate <= -1:
+        raise ValueError("risk_free_rate must be finite and greater than -1")
+    if not np.isfinite(train_fraction) or not 0 < train_fraction < 1:
+        raise ValueError("train_fraction must be between zero and one")
+    provenance = raw_prices.loc[:, provenance_columns + [
+        c for c in ["raw_sha256", "snapshot_path", "replay_timestamp"] if c in raw_prices
+    ]].drop_duplicates()
+    metadata = {
+        "status": "complete", "train_fraction": train_fraction,
+        "annualization_periods": 252, "annual_risk_free_rate": risk_free_rate,
+        "daily_risk_free_rate": float(np.expm1(np.log1p(risk_free_rate)/252)),
+        "risk_free_convention": "fixed assumed annual effective rate",
+        "sharpe_convention": "daily excess mean/sample std times sqrt(252)",
+        "var_convention": "-linear return quantile(1-confidence), signed loss, no clamp",
+        "confidence": 0.95, "interpolation": "linear",
+        "cvar_convention": "negative integral of linear return quantile over [0,0.05] divided by 0.05",
+        "downside_target_annual": 0.0,
+        "rebalancing": "constant weights restored each day; gross of costs",
+        "sample_policy": "longest complete contiguous common-session price block; earliest tie",
+        "evaluation_design": "single chronological split; no rolling backtest",
+        "requested_start": start.isoformat(), "requested_end": end.isoformat(),
+        "data_providers": dict(zip(provenance.symbol, provenance.source)),
+    }
+    try:
+        prices, quality = clean_prices(raw_prices)
+    except ValueError as error:
+        if not hasattr(error, "quality"):
+            raise
+        quality = error.quality
+        prices = raw_prices.iloc[:0].copy()
+    quality_report, events, window_prices = assess_quality(
+        prices, quality, start, end, sessions_by_symbol=sessions_by_symbol,
+        status_by_key=status_by_key)
+    metadata["quality_events"] = len(events)
+    metadata["calendar"] = quality_report.calendar.iloc[0]
+    compatible = provenance.price_basis.isin(["forward_adjusted", "adjusted_close"]).all()
+    consistent = provenance.groupby("symbol").price_basis.nunique().le(1).all()
+    metadata["source_status"] = "adjusted_provider_prices_not_verified_total_return" if compatible and consistent else "mixed_or_unadjusted"
+    extras = {"asset_data_quality": quality_report, "data_quality_events": events,
+              "source_metadata": provenance}
+    if len(window_prices) < 31 or metadata["source_status"] == "mixed_or_unadjusted":
+        metadata.update(status="quality_only",
+            reason="Insufficient contiguous history or incompatible price basis; no fabricated performance")
+        stage = _create_staging_directory(output_path)
+        try:
+            (stage / "powerbi").mkdir()
+            _write_evidence(stage, extras, metadata)
+            _publish_output_package(stage, output_path)
+        except Exception:
+            shutil.rmtree(stage, ignore_errors=True)
+            raise
+        return PipelineResult(output_path, {}, metadata)
+    shared_returns = window_prices.pct_change(fill_method=None).iloc[1:].copy()
+    if shared_returns.isna().any().any():
+        raise PipelineError("Internal error: selected window is not complete")
+    shared_returns.index.name = "date"
+    training, evaluation = split_returns(shared_returns, train_fraction)
+    metrics = _asset_metrics_table(shared_returns, risk_free_rate)
     portfolio_weights = {"equal_weight": equal_weights(shared_returns.columns)}
     optimization_error = None
     try:
-        portfolio_weights["minimum_volatility"] = minimum_volatility_weights(
-            shared_returns
-        )
+        portfolio_weights["minimum_volatility"] = minimum_volatility_weights(training)
+        metadata["optimization"] = portfolio_weights["minimum_volatility"].attrs["optimization"]
     except PortfolioOptimizationError as error:
         optimization_error = str(error)
-
     portfolio_timeseries, portfolio_metric_table = _portfolio_tables(
-        shared_returns, portfolio_weights
-    )
+        evaluation, portfolio_weights, risk_free_rate)
     weights_table = _weights_table(portfolio_weights)
     correlation_table = _correlation_table(shared_returns)
     quality_table = _quality_table(quality, shared_returns)
-
     facts = {
-        "price_rows": int(len(prices)),
-        "asset_count": int(prices["symbol"].nunique()),
-        "risk_metric_count": int(
-            sum(
-                name in metrics.columns and metrics[name].notna().all()
-                for name in RISK_METRICS
-            )
-        ),
+        "price_rows": int(len(prices)), "asset_count": int(prices.symbol.nunique()),
+        "risk_metric_count": sum(name in metrics for name in RISK_METRICS),
         "start_date": quality.start_date.date().isoformat(),
         "end_date": quality.end_date.date().isoformat(),
         "portfolio_count": len(portfolio_weights),
     }
-
+    metadata.update({
+        "optimization_status": "failed" if optimization_error else "succeeded",
+        "optimization_error": optimization_error,
+        "shared_window_rows": len(shared_returns),
+        "shared_window_start": shared_returns.index.min().date().isoformat(),
+        "shared_window_end": shared_returns.index.max().date().isoformat(),
+        "training_start": training.index.min().date().isoformat(),
+        "training_end": training.index.max().date().isoformat(),
+        "evaluation_start": evaluation.index.min().date().isoformat(),
+        "evaluation_end": evaluation.index.max().date().isoformat(),
+        "training_rows": len(training), "evaluation_rows": len(evaluation),
+        "evaluation_wealth_origin": training.index.max().date().isoformat(),
+        "asset_metric_status": metrics.attrs.get("metric_status", {}),
+        "portfolio_metric_status": portfolio_metric_table.attrs.get("metric_status", {}),
+        "tail_sample_warning": len(evaluation) * 0.05 < 10,
+        **facts,
+    })
     staging_path = _create_staging_directory(output_path)
     try:
         _build_output_package(
-            staging_path,
-            prices=prices,
-            asset_metric_table=metrics,
+            staging_path, prices=prices, asset_metric_table=metrics,
             portfolio_timeseries=portfolio_timeseries,
             portfolio_metric_table=portfolio_metric_table,
-            correlation_table=correlation_table,
-            weights_table=weights_table,
-            quality_table=quality_table,
-            facts=facts,
-        )
+            correlation_table=correlation_table, weights_table=weights_table,
+            quality_table=quality_table, facts=facts, extras=extras, metadata=metadata)
         _publish_output_package(staging_path, output_path)
     except Exception:
-        if staging_path.exists():
-            shutil.rmtree(staging_path)
+        if staging_path.exists(): shutil.rmtree(staging_path)
         raise
-
-    metadata = {
-        "status": "complete",
-        "optimization_status": "failed" if optimization_error else "succeeded",
-        "optimization_error": optimization_error,
-        "shared_window_rows": int(len(shared_returns)),
-        "shared_window_start": shared_returns.index.min().date().isoformat(),
-        "shared_window_end": shared_returns.index.max().date().isoformat(),
-        "data_providers": data_providers,
-        **facts,
-    }
     return PipelineResult(output_path, failures, metadata)
+
 
 
 def _create_staging_directory(destination: Path) -> Path:
@@ -183,6 +238,7 @@ def _build_output_package(
     weights_table: pd.DataFrame,
     quality_table: pd.DataFrame,
     facts: dict[str, Any],
+    extras=None, metadata=None,
 ) -> None:
     powerbi_path = staging_path / "powerbi"
     powerbi_path.mkdir()
@@ -194,6 +250,8 @@ def _build_output_package(
     _write_csv(weights_table, powerbi_path / "portfolio_weights.csv")
     _write_csv(quality_table, powerbi_path / "data_quality.csv")
 
+    extras = extras or {}
+    _write_evidence(staging_path, extras, metadata or {})
     write_analysis_database(
         staging_path / "analysis.sqlite",
         {
@@ -201,6 +259,7 @@ def _build_output_package(
             "asset_metrics": asset_metric_table,
             "portfolio_metrics": portfolio_metric_table,
             "portfolio_weights": weights_table,
+            **extras,
         },
     )
     (staging_path / "resume_facts.json").write_text(
@@ -227,8 +286,8 @@ def _publish_output_package(staging_path: Path, destination: Path) -> None:
         raise PipelineError(message) from error
 
 
-def _asset_metrics_table(returns: pd.DataFrame) -> pd.DataFrame:
-    table = asset_metrics(returns).rename_axis("symbol").reset_index()
+def _asset_metrics_table(returns: pd.DataFrame, risk_free_rate=0.02) -> pd.DataFrame:
+    table = asset_metrics(returns, risk_free_rate).rename_axis("symbol").reset_index()
     asset_lookup = pd.DataFrame(
         {
             "symbol": [asset.symbol for asset in ASSETS],
@@ -236,11 +295,13 @@ def _asset_metrics_table(returns: pd.DataFrame) -> pd.DataFrame:
             "asset_class": [asset.asset_class for asset in ASSETS],
         }
     )
-    return asset_lookup.merge(table, on="symbol", how="inner")
+    result = asset_lookup.merge(table, on="symbol", how="inner")
+    result.attrs = table.attrs.copy()
+    return result
 
 
 def _portfolio_tables(
-    returns: pd.DataFrame, weights_by_portfolio: dict[str, pd.Series]
+    returns: pd.DataFrame, weights_by_portfolio: dict[str, pd.Series], risk_free_rate=0.02
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     series_frames = []
     metric_series = {}
@@ -258,7 +319,7 @@ def _portfolio_tables(
         series_frames.append(frame)
 
     metric_table = (
-        asset_metrics(pd.DataFrame(metric_series))
+        asset_metrics(pd.DataFrame(metric_series), risk_free_rate, minimum_observations=2)
         .rename_axis("portfolio")
         .reset_index()
     )
@@ -310,3 +371,20 @@ def _write_csv(frame: pd.DataFrame, path: Path) -> None:
     for column in serializable.select_dtypes(include=["datetime", "datetimetz"]):
         serializable[column] = serializable[column].dt.strftime("%Y-%m-%d")
     serializable.to_csv(path, index=False, encoding="utf-8")
+
+
+def _write_evidence(staging_path, extras, metadata):
+    """Persist diagnostic tables, methodology and raw evidence for every run status."""
+    for name, table in extras.items():
+        _write_csv(table, staging_path / "powerbi" / f"{name}.csv")
+    (staging_path / "methodology.json").write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+    if "source_metadata" in extras and "snapshot_path" in extras["source_metadata"]:
+        raw_folder = staging_path / "raw"
+        raw_folder.mkdir()
+        for raw_name in extras["source_metadata"]["snapshot_path"].unique():
+            if pd.notna(raw_name):
+                source = Path(raw_name)
+                if not source.is_file():
+                    raise PipelineError(f"Missing raw snapshot: {source}")
+                shutil.copyfile(source, raw_folder / source.name)

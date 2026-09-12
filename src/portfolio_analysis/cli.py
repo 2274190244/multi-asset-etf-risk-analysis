@@ -27,15 +27,23 @@ def main(argv: Sequence[str] | None = None, session: Any = None) -> int:
             "(for example, output_20260812; add a unique suffix for another refresh)"
         ),
     )
+    parser.add_argument("--train-fraction", type=float, default=0.7)
+    parser.add_argument("--risk-free-rate", type=float, default=0.02,
+                        help="Annual effective assumed rate, decimal units")
     args = parser.parse_args(argv)
 
     if args.start > args.end:
         parser.error("--start must not be later than --end")
 
+    if not 0 < args.train_fraction < 1:
+        parser.error("--train-fraction must lie strictly between 0 and 1")
+    if not -1 < args.risk_free_rate < float("inf"):
+        parser.error("--risk-free-rate must be finite and greater than -1")
     market_session = session if session is not None else create_market_session()
     try:
         result = run_pipeline(
-            args.start, args.end, args.output_dir, session=market_session
+            args.start, args.end, args.output_dir, session=market_session,
+            train_fraction=args.train_fraction, risk_free_rate=args.risk_free_rate
         )
     except Exception as error:
         print(f"Pipeline failed: {error}.", file=sys.stderr)
@@ -50,6 +58,9 @@ def main(argv: Sequence[str] | None = None, session: Any = None) -> int:
         return 1
 
     metadata = result.metadata
+    if metadata.get("status") == "quality_only":
+        print(f"Quality report saved: {result.output_dir}. {metadata.get('reason', '')}")
+        return 2
     print(
         f"Complete: {metadata['price_rows']} price rows, "
         f"{metadata['asset_count']} assets, "

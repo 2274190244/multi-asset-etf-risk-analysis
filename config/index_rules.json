@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "rule_version": "phase4-v1",
+  "index_label": "Fixed ETF forward-adjusted-price research index",
+  "price_basis": "forward_adjusted",
+  "total_return_verified": false,
+  "estimation_window": 252,
+  "base_level": 1000,
+  "annualization_days": 252,
+  "annual_risk_free_rate": 0.02,
+  "weighting_methods": [
+    "equal_weight",
+    "inverse_volatility"
+  ],
+  "rebalance_frequencies": [
+    "monthly",
+    "quarterly"
+  ],
+  "availability_policy": "assumed_next_session_09:00",
+  "signal_cutoff": "observation date < execution t; available_at <= t14:59 Asia/Shanghai",
+  "execution": "close t; target earns t+1",
+  "inception": "first calendar quarter-end after complete estimation window",
+  "transaction_cost_bps": 0,
+  "concentration_cap": null,
+  "universe": [
+    {
+      "symbol": "510300.SS",
+      "name": "沪深300ETF",
+      "asset_class": "equity",
+      "eligible_from": "2023-08-14",
+      "effective_date_note": "configured fixed study universe; not listing date or historical selection evidence"
+    },
+    {
+      "symbol": "510500.SS",
+      "name": "中证500ETF",
+      "asset_class": "equity",
+      "eligible_from": "2023-08-14",
+      "effective_date_note": "configured fixed study universe; not listing date or historical selection evidence"
+    },
+    {
+      "symbol": "159915.SZ",
+      "name": "创业板ETF",
+      "asset_class": "equity",
+      "eligible_from": "2023-08-14",
+      "effective_date_note": "configured fixed study universe; not listing date or historical selection evidence"
+    },
+    {
+      "symbol": "518880.SS",
+      "name": "黄金ETF",
+      "asset_class": "gold",
+      "eligible_from": "2023-08-14",
+      "effective_date_note": "configured fixed study universe; not listing date or historical selection evidence"
+    },
+    {
+      "symbol": "511010.SS",
+      "name": "国债ETF",
+      "asset_class": "bond",
+      "eligible_from": "2023-08-14",
+      "effective_date_note": "configured fixed study universe; not listing date or historical selection evidence"
+    }
+  ],
+  "market_cap_weighted": {
+    "status": "skipped",
+    "reason": "Audited inputs contain no reliable historical market-cap/share-count series or publication history. ETF AUM is not underlying equity market capitalization."
+  },
+  "limitations": [
+    "Retrospectively selected fixed five-ETF universe; survivorship and selection bias remain.",
+    "Uniform adjusted-market-price basis has not been independently certified as total return.",
+    "Next-session availability is an assumption, not proof of original historical publication/revision state.",
+    "Gross rule index without incremental trading costs; ETF fees already reflected in prices are not deducted twice."
+  ]
+}

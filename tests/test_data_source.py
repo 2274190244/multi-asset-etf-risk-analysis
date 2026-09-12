@@ -49,7 +49,7 @@ def test_eastmoney_secid_rejects_unsupported_symbols(symbol):
 def test_parse_eastmoney_response_returns_normalized_columns(eastmoney_payload):
     frame = parse_eastmoney_response(eastmoney_payload, ASSETS[0])
 
-    assert list(frame.columns) == [
+    assert list(frame.columns[:5]) == [
         "date",
         "symbol",
         "asset_name",
@@ -149,7 +149,7 @@ def test_fetch_eastmoney_asset_prices_propagates_unexpected_request_errors(
 def test_parse_chart_response_returns_normalized_columns(yahoo_payload):
     frame = parse_chart_response(yahoo_payload, ASSETS[0])
 
-    assert list(frame.columns) == [
+    assert list(frame.columns[:5]) == [
         "date",
         "symbol",
         "asset_name",

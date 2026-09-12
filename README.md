@@ -1,189 +1,80 @@
-# Multi-Asset Portfolio Analysis
+# ETF与多资产研究 | ETF & Multi-Asset Research
 
-This project downloads adjusted daily prices for five China-listed ETFs from
-Eastmoney, checks data quality, measures asset and portfolio risk, constructs
-equal-weight and long-only minimum-volatility portfolios, and packages the results
-for SQLite analysis and Power BI. Yahoo Finance remains available as a per-asset
-fallback if the primary provider fails.
+面向ETF、指数与量化研究岗位的可复现研究作品。使用五只中国ETF，研究跟踪口径、组合风险、指数规则与稳健性；不提供预测模型或参数择优结论。
 
-## Interactive Dashboard / 中文在线看板
+## 核心研究结论
+- Minimum Variance 在可用路径中持续高度集中于国债ETF：主比较组最低权重 95.57%，较长样本组 93.73%；不是跨市场、跨时期保证。
+- Inverse Volatility 在已分析的同日期样本中持续降低相对 Equal Weight 的波动率，但明显集中于国债ETF，低风险不等于资产充分分散。
+- 更频繁调仓通常增加换手，但月度调仓没有在所有子区间稳定提高收益；须同时查看费用和配对差异，不能写成所有情景均增加换手。
+- Sharpe、回撤和集中度对估计窗口及样本区间敏感；没有选择最佳参数，重叠子区间不属于独立统计实验。
+- 三只股票ETF可在已披露假设下相对全收益研究参考分析跟踪表现；官方价格基准未被替换，黄金与国债的严格跟踪指标保持 unavailable。
 
-The recruiter-facing Streamlit dashboard reads only the canonical
-`output_verified` package. It presents five ETF return paths, risk metrics,
-correlations, equal-weight and minimum-volatility portfolio results, allocation
-weights, and data-quality evidence without making live market-data requests.
+上述结论属于当前可用样本的描述，没有统计显著优势或实盘盈利能力主张。
 
-![Chinese multi-asset ETF risk dashboard](docs/assets/streamlit-dashboard.png)
+## 四条研究主线
 
-Run the dashboard from the repository root:
+| 模块 | Research Question | Methodology | Evidence | Findings | Limitations |
+|---|---|---|---|---|---|
+| ETF Tracking Research | ETF与基准是否可比，偏离多少？ | 官方身份、共同日期、TD/TE/IR与滚动指标 | [Phase 3](docs/audit/phase3_report.md) | 股票ETF相对全收益参考有条件可分析 | 官方价格基准与全收益参考不同；黄金/国债严格指标不可得 |
+| Walk-Forward Portfolio Research | 低风险是否依赖集中？ | 252日估计，21/63日调仓，漂移、费用 | [Phase 2](docs/audit/phase2_report.md) | 低波动伴随国债集中 | 固定样本、数据版本与执行假设 |
+| Index Construction Research | 编制规则如何影响风险收益？ | Universe→Eligibility→Weighting→Rebalance→Calculation | [Phase 4](docs/audit/phase4_report.md) | 等权与逆波动有不同风险/集中度 | 固定ETF研究指数；市值加权跳过；Gross |
+| Robustness Analysis | 结论依赖参数和样本吗？ | 126/252/504窗口、共同日期、连续持仓子区间 | [Phase 5](docs/audit/phase5_report.md) | 风险方向较一致，指标和收益优势不稳定 | 主组207日、扩展451日；重叠试验不独立 |
 
-```powershell
-python -m pip install -r requirements.txt
-python -m streamlit run streamlit_app.py
-```
+每个页面按Research Question → Methodology → Evidence → Findings → Limitations组织。[Research Summary](docs/RESEARCH_SUMMARY.md)包含完整解释与面试要点。
 
-The local page opens at `http://localhost:8501`.
+## 数据与方法边界
+- ETF：510300.SS、510500.SS、159915.SZ、518880.SS、511010.SS。
+- Phase 1/2/4/5为前复权市场价格，不是认证NAV总收益。Phase 3另使用NAV、分红及指数数据。
+- 股票官方价格基准000300/000905/399006未被替换；H00300/H00905/399606是全收益研究参考。
+- 执行日前估计，执行后收益；非调仓日允许漂移。历史时间隔离不等于前瞻实盘能力。
+- Phase 2月/季为21/63交易日；Phase 4为日历月末/季末。不同阶段原始日期不同，不跨期排名。
+- 年化252日，2%有效年RF按(1.02)^(1/252)-1转日RF；Sharpe按日超额均值/样本标准差年化。
+- 页面比例用%，CSV用小数；TD差异为百分点。缺失不填0，禁止未来填充。详见[Methodology](docs/METHODOLOGY.md)。
 
-### Deploy on Streamlit Community Cloud
+## 运行研究页面
+从仓库根目录运行：
 
-1. Push the latest `main` branch to GitHub.
-2. Sign in at [share.streamlit.io](https://share.streamlit.io/) with GitHub and select **Create app**.
-3. Set the repository to `2274190244/multi-asset-etf-risk-analysis`.
-4. Set the branch to `main` and the entrypoint to `streamlit_app.py`.
-5. Select Python 3.12 in Advanced settings, then deploy. No secrets are required.
-6. Add the generated `streamlit.app` URL to the GitHub About field and the resume project link.
+    python -m pip install -e .
+    python -m streamlit run streamlit_app.py
 
-The root `requirements.txt`, `.streamlit/config.toml`, verified CSV files, and app
-entrypoint are included so Community Cloud can build the page directly from GitHub.
+侧栏：研究概览、ETF Tracking Research、Walk-Forward Portfolio Research、Index Construction Research、Robustness Analysis、数据与方法附录。
+读取归档结果，不联网、不重新优化。252日为既定展示默认，不代表最佳参数；缺失或哈希不匹配明确提示，不回退到旧结果。
 
-## Assets
+## 离线复现与历史输出
 
-| Symbol | Exposure |
-| --- | --- |
-| `510300.SS` | CSI 300 large-cap equity |
-| `510500.SS` | CSI 500 mid/small-cap equity |
-| `159915.SZ` | ChiNext growth equity |
-| `518880.SS` | Gold |
-| `511010.SS` | Chinese government bonds |
+    python scripts/rebuild_phase1.py --output-dir output_phase1_reproduced
+    python scripts/run_phase2.py --output-dir output_phase2_reproduced
+    python scripts/run_phase3.py --output-dir output_phase3_reproduced
+    python scripts/run_phase4.py --output-dir output_phase4_reproduced
+    python scripts/run_phase5.py --output-dir output_phase5_reproduced
 
-All five assets are required. Eastmoney is attempted first for each symbol, then
-Yahoo Finance is attempted only if that primary request or payload fails. A symbol
-that fails with both providers is reported and the command exits without creating
-a new analysis package.
+目标目录必须不存在；各脚本参数见 --help。
 
-## Setup
+| 目录 | 用途 |
+|---|---|
+| output_verified | 旧错误结果审计证据，不作为有效研究结果 |
+| output_phase1 | 数据质量、指标修复、single split；[报告](docs/audit/phase1_report.md) |
+| output_phase2 | Walk-Forward、Gross/Net、权重与交易 |
+| output_phase3 | 基准、Tracking口径状态与来源 |
+| output_phase4 | 规则指数、资格、成分与调仓 |
+| output_phase5 | 参数敏感性、子区间与稳定性 |
 
-Python 3.12 or later is recommended.
+Phase 1–5输出原样保留。旧页面和README保存在docs/audit/phase6。
 
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install -e .
-```
+## 工程结构与验证
+独立金融计算模块 → 配置与审计 → CSV/SQLite归档 → research_display只读校验 → Streamlit。
+页面和文档核心发现来自同一展示模块；金融函数与UI分离。
 
-Run the offline test suite:
+    python -m pytest tests -q -p no:cacheprovider --basetemp=.audit_tmp/new_test_run
 
-```powershell
-$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD = "1"
-python -m pytest -v -p no:cacheprovider
-```
+测试临时目录使用新名称。Phase 6 baseline：287 collected / 287 passed / 0 failed / 0 skipped。
+最终测试与完整性记录见[Phase 6交付报告](docs/audit/phase6_report.md)。
 
-## One-Command Run
+## 剩余局限
+约三年历史，504日窗口后的共同评价仅207日，短子区间年化不稳定。固定Universe有选择/存续偏差，历史数据版本与可得时点未完全验证。
+NAV分红、供应商指数历史、黄金时点及国债净价可比性有限制；费用未完整覆盖价差、冲击、税费与容量。
+无显著性检验或独立前瞻验证，不挑最佳参数，不把重叠情景当作独立成功率。
 
-From this directory, build the package using the default trailing three-year
-window:
+[Research Summary、简历bullet与面试要点](docs/RESEARCH_SUMMARY.md)
 
-```powershell
-python -m portfolio_analysis.cli --output-dir output_20260812
-```
-
-An explicit inclusive date range can also be supplied:
-
-```powershell
-python -m portfolio_analysis.cli --start 2023-08-12 --end 2026-08-12 --output-dir output_20260812
-```
-
-The command prints the computed price-row count, asset count, portfolio count,
-and actual observed date range. It returns a nonzero status if any configured
-asset is unavailable or analysis cannot complete. Every refresh must use a new,
-non-existing versioned destination; add a unique suffix when producing more than
-one package on the same date. `output_verified` is the canonical verified package
-in this project workspace.
-
-## Outputs
-
-| File | Purpose |
-| --- | --- |
-| `<versioned_output>/analysis.sqlite` | Queryable `prices`, `asset_metrics`, `portfolio_metrics`, and `portfolio_weights` tables |
-| `<versioned_output>/powerbi/prices.csv` | Long daily adjusted-close history by asset |
-| `<versioned_output>/powerbi/asset_metrics.csv` | Five annualized and downside metrics by asset |
-| `<versioned_output>/powerbi/portfolio_timeseries.csv` | Daily returns, cumulative returns, and 20-trading-day annualized rolling volatility by portfolio |
-| `<versioned_output>/powerbi/portfolio_metrics.csv` | Comparable risk metrics by portfolio |
-| `<versioned_output>/powerbi/correlation_matrix.csv` | Long-form pairwise return correlations |
-| `<versioned_output>/powerbi/portfolio_weights.csv` | Asset allocation by portfolio |
-| `<versioned_output>/powerbi/data_quality.csv` | Cleaning counts, coverage, and shared portfolio window |
-| `<versioned_output>/resume_facts.json` | Small set of run-derived facts suitable for evidence-backed resume statements |
-
-Successful raw responses are cached under `data/raw/` for traceability. Eastmoney
-files use `eastmoney_<symbol>.json`; Yahoo fallback files retain `<symbol>.json`,
-so provider payloads cannot overwrite one another. CSV files are written as UTF-8
-and can be loaded directly into Power BI.
-
-The nine-file output package is built completely in a unique sibling staging
-directory. Only after every CSV, the SQLite database, and `resume_facts.json` are
-ready does the pipeline publish staging with a single same-volume, no-replace
-directory rename on Windows (`os.rename`). Existing destinations are never
-overwritten: a pre-check gives a clear error, while the no-replace rename closes
-the check-to-publish race. If building or publishing fails, staging is removed and
-any destination that already exists or appears concurrently is left untouched.
-
-## Data Source Disclosure
-
-The primary source is Eastmoney's public historical kline endpoint at
-`push2his.eastmoney.com`. Shanghai symbols map to `secid=1.<code>` and Shenzhen
-symbols map to `secid=0.<code>`. Requests use daily klines (`klt=101`), forward
-adjustment (`fqt=1`), inclusive `beg` and `end` dates, and read the date and close
-from fields `f51` and `f53`. The legacy Yahoo chart client and parser are retained
-as fallback capability and continue to use adjusted close where available.
-
-The pipeline result metadata records the provider used for each asset. These APIs
-are external public services, not project-owned feeds; availability and historical
-revisions remain outside this project's control.
-
-## Calculations
-
-- Daily return: `adjusted_close[t] / adjusted_close[t-1] - 1`, with no filling
-  across missing prices.
-- Annualized return: geometric compound return raised to `252 / observations`.
-- Annualized volatility: sample standard deviation of daily returns times
-  `sqrt(252)`.
-- 20-trading-day rolling volatility: sample standard deviation over each
-  portfolio's latest 20 daily returns times `sqrt(252)`. The first 19 portfolio
-  observations are intentionally blank because no complete window exists.
-- Sharpe ratio: `(annualized return - 2% risk-free rate) / annualized volatility`.
-- Maximum drawdown: minimum decline in cumulative wealth from its running peak.
-- Historical VaR: positive 95% one-day loss estimate from the empirical fifth
-  percentile.
-- Equal weight: 20% in each of the five assets.
-- Minimum volatility: SciPy SLSQP minimizes portfolio variance subject to long-only
-  weights between zero and one that sum to one.
-- Correlation: Pearson correlation of synchronized daily returns.
-
-Asset metrics use each asset's available observations. Portfolio construction,
-portfolio comparison, and correlation use one shared window created by applying
-`dropna` across the wide return matrix for all five assets. This makes every
-portfolio date directly comparable and prevents an optimizer from using
-different asset histories. If no complete five-asset return row exists, the
-pipeline exits with a concise error and does not publish a new package. If
-minimum-volatility optimization fails, the valid
-equal-weight results are retained, no minimum-volatility weights are exported,
-and the failure is recorded in pipeline result metadata.
-
-## AI Agent Collaboration Disclosure
-
-An OpenAI Codex coding agent assisted with requirements interpretation, test-first
-implementation, documentation, and verification. The project owner remains
-responsible for reviewing the code, validating the live outputs, and presenting
-only claims supported by `resume_facts.json` and the SQLite database. No synthetic
-fixture results are presented as production evidence.
-
-## Limitations
-
-- Eastmoney and Yahoo Finance are external sources with no availability guarantee;
-  symbols, corrections, adjustment methods, and historical prices can change.
-- Providers can disconnect requests or enforce rate limits. Production HTTP GETs
-  retry connection/read failures and status `429`, `500`, `502`, `503`, and `504`
-  at most three times with bounded exponential backoff and `Retry-After` support;
-  exhausted retries still fail the asset rather than waiting indefinitely.
-- The analysis is historical and does not predict future returns.
-- Results exclude transaction costs, taxes, liquidity, tracking error, rebalancing
-  turnover, and position-size constraints beyond long-only full investment.
-- The fixed 2% risk-free assumption may not match the investment currency or period.
-- Complete-case synchronization can shorten the usable portfolio window when any
-  asset has a missing observation.
-- The five selected ETFs are illustrative and do not represent every investable
-  asset or eliminate selection bias.
-
-See [docs/powerbi_build_guide.md](docs/powerbi_build_guide.md) for dashboard
-construction and [docs/interview_guide.md](docs/interview_guide.md) for a truthful
-project walkthrough.
+最终完整测试：297 collected / 297 passed / 0 failed / 0 skipped（30.21秒）。本机使用短临时路径.t6通过；此前目录访问/路径失败详见交付报告，未隐藏。

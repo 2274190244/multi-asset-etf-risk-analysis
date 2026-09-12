@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "portfolio-analysis"
 version = "0.1.0"
 dependencies = [
+    "exchange-calendars>=4.13.2,<5",
     "pandas>=2.2,<4.0",
     "numpy>=1.26,<3.0",
     "scipy>=1.12,<2.0",

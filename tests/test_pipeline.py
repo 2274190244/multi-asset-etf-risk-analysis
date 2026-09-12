@@ -10,6 +10,7 @@ import requests
 
 import portfolio_analysis.pipeline as pipeline_module
 from portfolio_analysis.config import ASSETS
+from portfolio_analysis.quality import china_sessions
 from portfolio_analysis.pipeline import PipelineError, PipelineResult, run_pipeline
 from portfolio_analysis.portfolios import PortfolioOptimizationError
 
@@ -43,7 +44,7 @@ def test_run_pipeline_creates_retrying_session_only_when_session_is_omitted(
     )
 
     run_pipeline(
-        date(2026, 1, 1), date(2026, 2, 14), tmp_path / "output"
+        date(2026, 1, 1), date(2026, 7, 1), tmp_path / "output"
     )
 
     assert factory_calls == [True]
@@ -55,7 +56,7 @@ def test_run_pipeline_creates_offline_powerbi_package(tmp_path, monkeypatch):
     session = _FixtureSession()
 
     result = run_pipeline(
-        date(2026, 1, 1), date(2026, 2, 14), tmp_path / "output", session=session
+        date(2026, 1, 1), date(2026, 7, 1), tmp_path / "output", session=session
     )
 
     output_dir = tmp_path / "output"
@@ -74,9 +75,9 @@ def test_run_pipeline_creates_offline_powerbi_package(tmp_path, monkeypatch):
         "end_date",
         "portfolio_count",
     }.issubset(facts)
-    assert facts["price_rows"] == 45 * len(ASSETS)
+    assert facts["price_rows"] == 100 * len(ASSETS)
     assert facts["asset_count"] == len(ASSETS)
-    assert facts["risk_metric_count"] == 5
+    assert facts["risk_metric_count"] == 9
     assert facts["portfolio_count"] == 2
     assert not {
         "revenue_growth",
@@ -97,7 +98,7 @@ def test_run_pipeline_falls_back_to_yahoo_for_one_eastmoney_failure(
     session = _FixtureSession(eastmoney_failing_symbol=fallback_symbol)
 
     result = run_pipeline(
-        date(2026, 1, 1), date(2026, 2, 14), tmp_path / "output", session=session
+        date(2026, 1, 1), date(2026, 7, 1), tmp_path / "output", session=session
     )
 
     assert result.failures == {}
@@ -127,7 +128,7 @@ def test_run_pipeline_does_not_fallback_after_unexpected_primary_error(
     with pytest.raises(TypeError, match="primary programming error"):
         run_pipeline(
             date(2026, 1, 1),
-            date(2026, 2, 14),
+            date(2026, 7, 1),
             tmp_path / "output",
             session=session,
         )
@@ -141,7 +142,7 @@ def test_run_pipeline_records_each_asset_failure_and_skips_package(tmp_path, mon
     session = _FixtureSession(failing_symbol=ASSETS[2].symbol)
 
     result = run_pipeline(
-        date(2026, 1, 1), date(2026, 2, 14), tmp_path / "output", session=session
+        date(2026, 1, 1), date(2026, 7, 1), tmp_path / "output", session=session
     )
 
     assert list(result.failures) == [ASSETS[2].symbol]
@@ -165,7 +166,7 @@ def test_run_pipeline_retains_only_equal_weights_when_optimization_fails(
 
     result = run_pipeline(
         date(2026, 1, 1),
-        date(2026, 2, 14),
+        date(2026, 7, 1),
         tmp_path / "output",
         session=_FixtureSession(),
     )
@@ -188,7 +189,7 @@ def test_run_pipeline_uses_complete_five_asset_window_for_portfolios(
 
     run_pipeline(
         date(2026, 1, 1),
-        date(2026, 2, 14),
+        date(2026, 7, 1),
         tmp_path / "output",
         session=_FixtureSession(missing_date=(ASSETS[4].symbol, 20)),
     )
@@ -197,8 +198,8 @@ def test_run_pipeline_uses_complete_five_asset_window_for_portfolios(
     timeseries = pd.read_csv(
         tmp_path / "output" / "powerbi" / "portfolio_timeseries.csv"
     )
-    assert quality.loc[0, "shared_window_rows"] == 42
-    assert timeseries.groupby("portfolio").size().eq(42).all()
+    assert quality.loc[0, "shared_window_rows"] == 78
+    assert timeseries.groupby("portfolio").size().eq(24).all()
 
 
 def test_portfolio_timeseries_contains_20_day_annualized_rolling_volatility(
@@ -208,7 +209,7 @@ def test_portfolio_timeseries_contains_20_day_annualized_rolling_volatility(
 
     run_pipeline(
         date(2026, 1, 1),
-        date(2026, 2, 14),
+        date(2026, 7, 1),
         tmp_path / "output",
         session=_FixtureSession(),
     )
@@ -230,17 +231,13 @@ def test_run_pipeline_rejects_empty_complete_five_asset_return_window(
 ):
     monkeypatch.chdir(tmp_path)
 
-    with pytest.raises(
-        PipelineError, match="No complete five-asset return window is available"
-    ):
-        run_pipeline(
-            date(2026, 1, 1),
-            date(2026, 12, 31),
-            tmp_path / "output",
-            session=_DisjointFixtureSession(),
-        )
+    result = run_pipeline(
+        date(2026, 1, 1), date(2026, 12, 31), tmp_path / "output",
+        session=_DisjointFixtureSession())
+    assert result.metadata["status"] == "quality_only"
+    assert (tmp_path / "output/powerbi/asset_data_quality.csv").exists()
+    assert not (tmp_path / "output/resume_facts.json").exists()
 
-    assert not (tmp_path / "output").exists()
 
 
 def test_resume_risk_metric_count_comes_from_populated_asset_metric_columns(
@@ -249,8 +246,8 @@ def test_resume_risk_metric_count_comes_from_populated_asset_metric_columns(
     monkeypatch.chdir(tmp_path)
     original = pipeline_module._asset_metrics_table
 
-    def metrics_with_unpopulated_var(returns):
-        table = original(returns)
+    def metrics_with_unpopulated_var(returns, risk_free_rate):
+        table = original(returns, risk_free_rate)
         table["historical_var"] = np.nan
         return table
 
@@ -260,7 +257,7 @@ def test_resume_risk_metric_count_comes_from_populated_asset_metric_columns(
 
     run_pipeline(
         date(2026, 1, 1),
-        date(2026, 2, 14),
+        date(2026, 7, 1),
         tmp_path / "output",
         session=_FixtureSession(),
     )
@@ -268,7 +265,7 @@ def test_resume_risk_metric_count_comes_from_populated_asset_metric_columns(
     facts = json.loads(
         (tmp_path / "output" / "resume_facts.json").read_text(encoding="utf-8")
     )
-    assert facts["risk_metric_count"] == 4
+    assert facts["risk_metric_count"] == 9
 
 
 def test_run_pipeline_cleans_staging_when_new_package_build_fails(
@@ -291,7 +288,7 @@ def test_run_pipeline_cleans_staging_when_new_package_build_fails(
     with pytest.raises(RuntimeError, match="simulated staged build failure"):
         run_pipeline(
             date(2026, 1, 1),
-            date(2026, 2, 14),
+            date(2026, 7, 1),
             output_dir,
             session=_FixtureSession(),
         )
@@ -321,7 +318,7 @@ def test_run_pipeline_refuses_existing_destination_without_modifying_it(
     ):
         run_pipeline(
             date(2026, 1, 1),
-            date(2026, 2, 14),
+            date(2026, 7, 1),
             output_dir,
             session=_FixtureSession(),
         )
@@ -356,7 +353,7 @@ def test_run_pipeline_publishes_new_destination_with_one_directory_rename(
 
     run_pipeline(
         date(2026, 1, 1),
-        date(2026, 2, 14),
+        date(2026, 7, 1),
         output_dir,
         session=_FixtureSession(),
     )
@@ -392,7 +389,7 @@ def test_run_pipeline_cleans_staging_when_new_destination_rename_fails(
     with pytest.raises(PipelineError, match="Could not publish output package"):
         run_pipeline(
             date(2026, 1, 1),
-            date(2026, 2, 14),
+            date(2026, 7, 1),
             output_dir,
             session=_FixtureSession(),
         )
@@ -428,7 +425,7 @@ def test_run_pipeline_preserves_destination_created_during_publish_race(
     ):
         run_pipeline(
             date(2026, 1, 1),
-            date(2026, 2, 14),
+            date(2026, 7, 1),
             output_dir,
             session=_FixtureSession(),
         )
@@ -488,7 +485,7 @@ class _FixtureSession:
         return [
             100.0 + symbol_offset * 10.0 + offset * (0.15 + symbol_offset * 0.01)
             + (offset % 4) * 0.05
-            for offset in range(45)
+            for offset in range(100)
         ]
 
     def _eastmoney_payload(self, symbol):
@@ -497,15 +494,15 @@ class _FixtureSession:
         for offset, close in enumerate(self._prices(symbol)):
             if self.missing_date == (symbol, offset):
                 continue
-            observed = (first_day + timedelta(days=offset)).date().isoformat()
+            observed = china_sessions("2026-01-01", "2026-12-31")[offset].date().isoformat()
             klines.append(f"{observed},{close},{close},{close},{close},1000")
         return {"rc": 0, "data": {"klines": klines}}
 
     def _yahoo_payload(self, symbol):
         first_day = datetime(2026, 1, 1, tzinfo=timezone.utc)
         timestamps = [
-            int((first_day + timedelta(days=offset)).timestamp())
-            for offset in range(45)
+            int(china_sessions("2026-01-01", "2026-12-31")[offset].tz_localize("UTC").timestamp())
+            for offset in range(100)
         ]
         return {
             "chart": {
@@ -525,9 +522,8 @@ class _DisjointFixtureSession(_FixtureSession):
         symbol_offset = next(
             index for index, asset in enumerate(ASSETS) if asset.symbol == symbol
         )
-        first_day = datetime(2026, 1, 1) + timedelta(days=symbol_offset * 60)
+        dates = china_sessions("2026-01-01", "2026-12-31")[symbol_offset*40:(symbol_offset+1)*40]
         klines = []
-        for offset, close in enumerate(self._prices(symbol)):
-            observed = (first_day + timedelta(days=offset)).date().isoformat()
-            klines.append(f"{observed},{close},{close},{close},{close},1000")
+        for observed, close in zip(dates, self._prices(symbol)):
+            klines.append(f"{observed.date().isoformat()},{close},{close},{close},{close},1000")
         return {"rc": 0, "data": {"klines": klines}}
