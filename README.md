@@ -31,24 +31,79 @@
 - 年化252日，2%有效年RF按(1.02)^(1/252)-1转日RF；Sharpe按日超额均值/样本标准差年化。
 - 页面比例用%，CSV用小数；TD差异为百分点。缺失不填0，禁止未来填充。详见[Methodology](docs/METHODOLOGY.md)。
 
-## 运行研究页面
-从仓库根目录运行：
+## 干净克隆：安装、生成与启动
 
-    python -m pip install -e .
-    python -m streamlit run streamlit_app.py
+使用 **Python 3.12** 和 Git。从克隆的仓库根目录执行以下步骤；生成研究结果不需要账号、API Key、SQLite 或已有的 output_phase1–5。
 
-侧栏：研究概览、ETF Tracking Research、Walk-Forward Portfolio Research、Index Construction Research、Robustness Analysis、数据与方法附录。
-读取归档结果，不联网、不重新优化。252日为既定展示默认，不代表最佳参数；缺失或哈希不匹配明确提示，不回退到旧结果。
+```console
+git clone --branch codex/phase1-research-audit https://github.com/2274190244/multi-asset-etf-risk-analysis.git
+cd multi-asset-etf-risk-analysis
+python -m venv .venv
+```
 
-## 离线复现与历史输出
+激活虚拟环境，Windows PowerShell：
 
-    python scripts/rebuild_phase1.py --output-dir output_phase1_reproduced
-    python scripts/run_phase2.py --output-dir output_phase2_reproduced
-    python scripts/run_phase3.py --output-dir output_phase3_reproduced
-    python scripts/run_phase4.py --output-dir output_phase4_reproduced
-    python scripts/run_phase5.py --output-dir output_phase5_reproduced
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
 
-目标目录必须不存在；各脚本参数见 --help。
+macOS / Linux：
+
+```sh
+source .venv/bin/activate
+```
+
+如果 PowerShell 禁止执行激活脚本，可以直接用 `.\.venv\Scripts\python.exe` 替代下面每条命令中的 `python`，不必修改系统策略。
+
+```console
+python -m pip install -r requirements-repro.txt -e .
+python scripts/build_research_demo.py
+python -m streamlit run streamlit_app.py
+```
+
+`requirements-repro.txt` 固定经过验证的数值和应用依赖版本；Python 3.12 是本阶段验证版本。安装需访问 PyPI，受网络和平台影响，慢网可能超过 10 分钟；固定样本重算通常 10–60 秒，首次页面加载约 2–10 秒。实测环境和用时见 [Phase 7 验证报告](docs/audit/phase7_report.md)。
+
+构建命令校验约 0.5 MB 的[标准化历史输入](data/research_demo/README.md)，调用既有 Phase 2–5 引擎，重新生成 13 张页面所需 CSV、方法与哈希清单到 `research_results/`。保留 24 个 Phase 2 情景、4 个 Phase 4 指数及 Phase 5 的完整预设矩阵（140 个可计算路径、28 个历史不足路径），没有挑选最佳参数。该目录被 Git 忽略。Phase 1 在此流程提供共同日期和价格输入验证，完整原始数据质量审计不属于此紧凑包的范围。
+
+侧栏包括研究概览、四条研究主线和数据与方法附录。页面只读结果、不联网重算；252 日为既定默认展示窗口。没有结果时页面显示“研究结果尚未生成”及生成命令；损坏、哈希不符的文件显示校验错误，不被当成缺失数据。
+
+构建拒绝覆盖已有目录。需要再次生成时指定新目录，并让页面读取同一个目录。例如 PowerShell：
+
+```powershell
+python scripts/build_research_demo.py --output-dir research_results_v2
+$env:ETF_RESEARCH_RESULTS = 'research_results_v2'
+python -m streamlit run streamlit_app.py
+```
+
+macOS / Linux 使用 `export ETF_RESEARCH_RESULTS=research_results_v2`。建议把目录设为绝对路径或始终从仓库根目录启动。结果读取顺序为显式环境变量 → `research_results/` → 本地旧 Phase 归档（仅前两者未设置/不存在时）；不在不同目录间逐表拼接。归档目录不是 GitHub 干净克隆的依赖。
+
+## 数据获取方式与复现边界
+
+默认流程离线使用 **2023-08-14 至 2026-08-12** 的真实历史标准化输入，来源、口径、请求区间、已知采集时间和原始哈希随输入持久化。市场数据为东方财富前复权价格；Tracking 另含基金 NAV/分红、官方价格基准与全收益研究参考。逐序列说明见 [provenance.json](data/research_demo/provenance.json) 和 [Benchmark 配置](config/benchmarks.json)。
+
+选择固定输入的原因是外部历史接口有连接失败、访问限制及历史修订风险。本阶段对原市场端点 HTTP/HTTPS 的探测均连接失败，因此不把实时下载设为页面运行前提。现有公开市场数据获取入口仍可用于尝试建立**新快照**：
+
+```console
+python -m portfolio_analysis.cli --start 2023-08-12 --end 2026-08-12 --output-dir output_phase1_live_new
+```
+
+此命令获取五只 ETF 行情并输出 Phase 1 质量/分析包，依赖供应商可用性；不是完整 Phase 3 NAV、分红及指数采集器，也不会自动更新页面的固定样本。退出失败或质量检查未通过时须检查原因，不能拿不完整数据替换既有证据。重新下载的历史数值可能修订，不保证复现旧结果。
+
+紧凑输入从本地已核对的原始归档提取；公开包没有原始响应、基金公告 PDF 或完整采集审计链。它可验证标准化数值之后的研究计算，**不能宣称完整独立重建全部原始证据**。旧市场快照的采集时刻无法恢复，明确标为 `unknown_legacy_snapshot`。来源数据权利与使用限制仍归各提供方，见输入说明。
+
+## 完整本地归档重放与历史输出
+
+以下入口保留供持有原始归档的维护者使用，**不是干净克隆的操作步骤**：
+
+```console
+python scripts/rebuild_phase1.py --output-dir output_phase1_reproduced
+python scripts/run_phase2.py --output-dir output_phase2_reproduced
+python scripts/run_phase3.py --output-dir output_phase3_reproduced
+python scripts/run_phase4.py --output-dir output_phase4_reproduced
+python scripts/run_phase5.py --output-dir output_phase5_reproduced
+```
+
+这些脚本依赖本地 `output_phase1`、`docs/audit/phase3` 等完整来源证据；目标目录必须不存在，各参数见 `--help`。Phase 7 没有削弱这些入口的原始哈希或日期检查。
 
 | 目录 | 用途 |
 |---|---|
@@ -59,16 +114,19 @@
 | output_phase4 | 规则指数、资格、成分与调仓 |
 | output_phase5 | 参数敏感性、子区间与稳定性 |
 
-Phase 1–5输出原样保留。旧页面和README保存在docs/audit/phase6。
+Phase 1–5 本地历史输出和 Phase 6 本地页面/README 快照原样保留；这些归档未随当前公共研究包发布。历史报告继续保留在 Git。`output_verified` 中少量旧文件从早期主分支就已跟踪，仅作错误结果审计证据，不能作为本阶段的有效输入。
 
 ## 工程结构与验证
 独立金融计算模块 → 配置与审计 → CSV/SQLite归档 → research_display只读校验 → Streamlit。
 页面和文档核心发现来自同一展示模块；金融函数与UI分离。
 
-    python -m pytest tests -q -p no:cacheprovider --basetemp=.audit_tmp/new_test_run
+```console
+python -m pytest tests -ra -p no:cacheprovider --basetemp=.t7tests
+```
 
-测试临时目录使用新名称。Phase 6 baseline：287 collected / 287 passed / 0 failed / 0 skipped。
-最终测试与完整性记录见[Phase 6交付报告](docs/audit/phase6_report.md)。
+测试会实际重算公开样本并通过 AppTest 加载六个页面，也检查无结果、哈希损坏和数据口径状态。依赖未公开原始采集证据的旧测试带 `archive` 标记：干净克隆会明确 `skipped` 并报告缺失原因，绝不计为 passed。持有完整归档时增加 `--require-archives` 可强制要求归档存在，并执行原结果与新数值的逐表一致性检查。Windows 使用较短的测试临时路径；不要把 `--basetemp` 指向需要保留的目录。
+
+完整测试计数、干净克隆结果与原归档完整性记录见 [Phase 7 交付报告](docs/audit/phase7_report.md)。之前阶段的验证记录保持在 [Phase 6 报告](docs/audit/phase6_report.md)。
 
 ## 剩余局限
 约三年历史，504日窗口后的共同评价仅207日，短子区间年化不稳定。固定Universe有选择/存续偏差，历史数据版本与可得时点未完全验证。
@@ -76,5 +134,3 @@ NAV分红、供应商指数历史、黄金时点及国债净价可比性有限�
 无显著性检验或独立前瞻验证，不挑最佳参数，不把重叠情景当作独立成功率。
 
 [Research Summary、简历bullet与面试要点](docs/RESEARCH_SUMMARY.md)
-
-最终完整测试：297 collected / 297 passed / 0 failed / 0 skipped（30.21秒）。本机使用短临时路径.t6通过；此前目录访问/路径失败详见交付报告，未隐藏。

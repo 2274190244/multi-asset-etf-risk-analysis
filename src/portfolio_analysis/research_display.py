@@ -1,6 +1,7 @@
 """Read-only research presentation adapters. No strategy calculations or downloads."""
 import hashlib
 import json
+import os
 from pathlib import Path
 import pandas as pd
 
@@ -12,16 +13,41 @@ CONVENTIONS="年化252日；2%有效年无风险利率按(1.02)^(1/252)-1转为�
 class ResearchDataError(ValueError):
     """Archived evidence missing or inconsistent."""
 
+class ResearchResultsMissing(ResearchDataError):
+    """Results have not been generated; UI should offer setup instructions."""
+
+
+def result_root(root):
+    """Choose one source namespace; never mix phases from different runs."""
+    if os.environ.get("ETF_RESEARCH_RESULTS"):
+        return Path(os.environ["ETF_RESEARCH_RESULTS"]).resolve()
+    root = Path(root)
+    if (root / "research_results").exists():
+        return root / "research_results"
+    if any((root / f"output_phase{p}").exists() for p in (2, 3, 4, 5)):
+        return root
+    return root / "research_results"
+
+
 def read_table(root,phase,name):
     """Read one archived CSV after checking its SHA256; never fall back."""
-    folder=Path(root)/f"output_phase{phase}"
+    folder=result_root(root)/f"output_phase{phase}"
     rel=f"{name}.csv" if phase==3 else f"tables/{name}.csv"
     path=folder/rel
     try:
         manifest=json.loads((folder/"sha256.json").read_text(encoding="utf-8"))
-        content=path.read_bytes()
+    except FileNotFoundError as error:
+        raise ResearchResultsMissing(f"缺少 Phase {phase} 研究结果，请运行 python scripts/build_research_demo.py") from error
     except (OSError,ValueError) as error:
-        raise ResearchDataError(f"缺少或无法读取 Phase {phase} / {name}；请检查归档结果包。") from error
+        raise ResearchDataError(f"结果清单损坏或无法读取：Phase {phase}") from error
+    if not isinstance(manifest,dict):
+        raise ResearchDataError(f"结果清单损坏：Phase {phase}")
+    try:
+        content=path.read_bytes()
+    except FileNotFoundError as error:
+        raise ResearchResultsMissing(f"缺少 Phase {phase} / {name}；请在新目录重新生成结果。") from error
+    except OSError as error:
+        raise ResearchDataError(f"结果文件无法读取：Phase {phase} / {name}") from error
     if manifest.get(rel)!=hashlib.sha256(content).hexdigest():
         raise ResearchDataError(f"结果校验失败：Phase {phase} / {name}")
     try:

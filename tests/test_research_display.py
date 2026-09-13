@@ -6,6 +6,14 @@ from streamlit.testing.v1 import AppTest
 
 ROOT=Path(__file__).resolve().parents[1]
 
+
+@pytest.fixture(autouse=True)
+def normalized_evidence(request, monkeypatch):
+    if request.node.name in {"test_missing_package_is_explicit", "test_tampered_result_is_rejected"}:
+        monkeypatch.delenv("ETF_RESEARCH_RESULTS", raising=False)
+    else:
+        monkeypatch.setenv("ETF_RESEARCH_RESULTS", str(request.getfixturevalue("demo_results")))
+
 def test_missing_package_is_explicit(tmp_path):
     from portfolio_analysis.research_display import read_table,ResearchDataError
     with pytest.raises(ResearchDataError,match="缺少"):

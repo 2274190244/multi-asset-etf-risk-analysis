@@ -7,13 +7,15 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 from portfolio_analysis.research_display import (
-    PAGES,COMMON_LIMITS,CONVENTIONS,ResearchDataError,read_table,tracking_view,robustness_view,findings)
+    PAGES,COMMON_LIMITS,CONVENTIONS,ResearchDataError,ResearchResultsMissing,result_root,read_table,tracking_view,robustness_view,findings)
 
 st.set_page_config(page_title="ETF与多资产研究",layout="wide")
 st.title("ETF与多资产研究")
 st.caption("Tracking · Walk-Forward · Index Construction · Robustness | 已归档研究证据")
 page=st.sidebar.radio("研究导航",PAGES)
 st.sidebar.caption("仅筛选已保存结果，不运行优化或实时下载。252日为既定默认值，不代表最佳参数。")
+if (result_root(ROOT)/"bundle.json").exists():
+    st.caption("固定样本重算结果 · 来源标注的标准化输入 · 未包含完整原始采集审计包")
 
 def table(frame):
     formats={c:("{:.2%}" if any(t in c for t in ["return","volatility","drawdown","tracking_error","tracking_difference","weight","turnover","historical_var","historical_cvar"]) and not any(t in c for t in ["date","count","status"]) else "{:.4f}") for c in frame.select_dtypes("number").columns}
@@ -140,6 +142,14 @@ try:
             p=ROOT/f"docs/audit/phase{phase}_report.md"
             st.download_button(f"下载 Phase {phase} 研究报告",p.read_bytes(),file_name=p.name)
         st.caption("output_verified 是旧错误结果审计记录，不作为有效研究证据。Phase 1–5结果原样保留。")
+except ResearchResultsMissing:
+    st.info("研究结果尚未生成，请先运行以下命令。")
+    st.code("python scripts/build_research_demo.py", language="bash")
+    st.write("本项目研究ETF跟踪、组合风险、指数规则与稳健性。生成过程使用固定公开来源样本，复用已有研究函数，不下载最新数据。")
+    st.caption("如已使用自定义目录，请将 ETF_RESEARCH_RESULTS 设置为对应结果目录。现有目录不覆盖；选择新目录重新生成。")
+    with st.expander("研究方法、发现和局限"):
+        st.markdown((ROOT/"docs/RESEARCH_SUMMARY.md").read_text(encoding="utf-8"))
+    st.info("数据与方法附录仍可直接访问。")
 except (ResearchDataError,OSError,KeyError,ValueError) as error:
     st.error(f"研究证据不可用：{error}")
     st.stop()
