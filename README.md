@@ -74,6 +74,8 @@ python -m streamlit run streamlit_app.py
 
 入口选择 `streamlit_app.py`，在部署高级设置选择 **Python 3.12**。依赖从根目录 `requirements.txt` 安装，不需要额外 build 命令或数据凭据。首次真实访问触发离线初始化；平台重建且结果丢失后会重新生成。需要允许应用在仓库目录写入约 11 MB 的结果。
 
+部署配置关闭开发用的源码文件监视，避免监视运行时生成目录。修改源码后需要重启服务；页面筛选和首次自动初始化仍正常运行。运行测试时先停止同一目录的服务，避免文件占用干扰验收。
+
 HTTP 健康检查只说明服务已启动，不能单独证明页面含有研究证据。最新[直接部署验收](docs/audit/phase7_deployment_report.md)同时检查冷启动浏览器会话和六页数据。Cloud 本身使用 Linux，依赖及 Python 版本选择规则见 [Streamlit 官方说明](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)。本地验收不冒充已实际发布到 Cloud。
 
 维护者仍可选用 `python scripts/build_research_demo.py` 预生成默认结果。该命令拒绝覆盖已有目录。需要再次生成时指定新目录，并让页面读取同一个目录。例如 PowerShell：

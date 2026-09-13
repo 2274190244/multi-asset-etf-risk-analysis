@@ -8,3 +8,8 @@ font = "sans-serif"
 
 [browser]
 gatherUsageStats = false
+
+[server]
+# This deployed research app does not need development-time source watching.
+# Avoid watching runtime-generated directories during atomic publication.
+fileWatcherType = "none"
