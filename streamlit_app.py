@@ -8,12 +8,20 @@ import plotly.express as px
 import streamlit as st
 from portfolio_analysis.research_display import (
     PAGES,COMMON_LIMITS,CONVENTIONS,ResearchDataError,ResearchResultsMissing,result_root,read_table,tracking_view,robustness_view,findings)
+from portfolio_analysis.deployment import default_results_missing, ensure_default_results
 
 st.set_page_config(page_title="ETF与多资产研究",layout="wide")
 st.title("ETF与多资产研究")
 st.caption("Tracking · Walk-Forward · Index Construction · Robustness | 已归档研究证据")
 page=st.sidebar.radio("研究导航",PAGES)
-st.sidebar.caption("仅筛选已保存结果，不运行优化或实时下载。252日为既定默认值，不代表最佳参数。")
+st.sidebar.caption("首次启动离线准备固定样本，此后筛选已保存结果。252日为既定默认值，不代表最佳参数。")
+if default_results_missing(ROOT):
+    try:
+        with st.spinner("首次启动：正在从固定历史输入生成研究结果，请稍候。"):
+            ensure_default_results(ROOT)
+    except Exception as error:
+        st.error(f"自动准备研究结果失败：{error}。请检查输入完整性、依赖版本及结果目录写权限后重试。")
+        st.stop()
 if (result_root(ROOT)/"bundle.json").exists():
     st.caption("固定样本重算结果 · 来源标注的标准化输入 · 未包含完整原始采集审计包")
 

@@ -56,20 +56,27 @@ source .venv/bin/activate
 如果 PowerShell 禁止执行激活脚本，可以直接用 `.\.venv\Scripts\python.exe` 替代下面每条命令中的 `python`，不必修改系统策略。
 
 ```console
-python -m pip install -r requirements-repro.txt -e .
-python scripts/build_research_demo.py
+python -m pip install -r requirements.txt
 python -m streamlit run streamlit_app.py
 ```
 
-`requirements-repro.txt` 固定经过验证的数值和应用依赖版本；Python 3.12 是本阶段验证版本。安装需访问 PyPI，受网络和平台影响，慢网可能超过 10 分钟；固定样本重算通常 10–60 秒，首次页面加载约 2–10 秒。实测环境和用时见 [Phase 7 验证报告](docs/audit/phase7_report.md)。
+`requirements.txt` 引用 `requirements-repro.txt` 中已验证的数值和应用依赖，并安装本项目；部署与本地使用同一套直接依赖。Python 3.12 是验证版本。安装需访问 PyPI，慢网可能超过 10 分钟。首次浏览器会话自动从固定输入离线生成结果，通常需 10–60 秒，并显示准备进度；后续访问复用结果。无需手工执行生成脚本。
 
 本阶段 Windows / Python 3.12.14 干净克隆实测：独立环境安装 124.3 秒（使用公开 PyPI 下载缓存），完整展示重算 15.3 秒；六个页面通过 AppTest，Streamlit 本地服务健康检查返回 200。此前补齐公开依赖的独立安装约 10 分钟，主要受下载速度影响。
 
-构建命令校验约 0.5 MB 的[标准化历史输入](data/research_demo/README.md)，调用既有 Phase 2–5 引擎，重新生成 13 张页面所需 CSV、方法与哈希清单到 `research_results/`。保留 24 个 Phase 2 情景、4 个 Phase 4 指数及 Phase 5 的完整预设矩阵（140 个可计算路径、28 个历史不足路径），没有挑选最佳参数。该目录被 Git 忽略。Phase 1 在此流程提供共同日期和价格输入验证，完整原始数据质量审计不属于此紧凑包的范围。
+自动初始化校验约 0.5 MB 的[标准化历史输入](data/research_demo/README.md)，调用既有 Phase 2–5 引擎，生成 13 张页面所需 CSV、方法与哈希清单到 `research_results/`。保留 24 个 Phase 2 情景、4 个 Phase 4 指数及 Phase 5 的完整预设矩阵（140 个可计算路径、28 个历史不足路径），没有挑选最佳参数。该目录被 Git 忽略。Phase 1 在此流程提供共同日期和价格输入验证，完整原始数据质量审计不属于此紧凑包的范围。
 
-侧栏包括研究概览、四条研究主线和数据与方法附录。页面只读结果、不联网重算；252 日为既定默认展示窗口。没有结果时页面显示“研究结果尚未生成”及生成命令；损坏、哈希不符的文件显示校验错误，不被当成缺失数据。
+侧栏包括研究概览、四条研究主线和数据与方法附录。首次默认初始化后，页面只读已保存结果；252 日为既定默认展示窗口。线程并发启动串行化，跨进程竞争只接受经过逐表校验的完整结果，生成失败不发布半成品，也不缓存失败状态。已有结果、历史归档及显式指定的目录不会被自动覆盖。显式目录缺失仍提示生成命令；损坏或哈希不符显示错误，不自动换用另一份结果。
 
-构建拒绝覆盖已有目录。需要再次生成时指定新目录，并让页面读取同一个目录。例如 PowerShell：
+自动生成的确定性指固定输入、固定参数和数值结果；采集/构建时间等元数据并非逐字节相同。原有研究限制不因自动部署而改变。
+
+### Streamlit Community Cloud
+
+入口选择 `streamlit_app.py`，在部署高级设置选择 **Python 3.12**。依赖从根目录 `requirements.txt` 安装，不需要额外 build 命令或数据凭据。首次真实访问触发离线初始化；平台重建且结果丢失后会重新生成。需要允许应用在仓库目录写入约 11 MB 的结果。
+
+HTTP 健康检查只说明服务已启动，不能单独证明页面含有研究证据。最新[直接部署验收](docs/audit/phase7_deployment_report.md)同时检查冷启动浏览器会话和六页数据。Cloud 本身使用 Linux，依赖及 Python 版本选择规则见 [Streamlit 官方说明](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)。本地验收不冒充已实际发布到 Cloud。
+
+维护者仍可选用 `python scripts/build_research_demo.py` 预生成默认结果。该命令拒绝覆盖已有目录。需要再次生成时指定新目录，并让页面读取同一个目录。例如 PowerShell：
 
 ```powershell
 python scripts/build_research_demo.py --output-dir research_results_v2
@@ -128,7 +135,7 @@ python -m pytest tests -ra -p no:cacheprovider --basetemp=.t7tests
 
 测试会实际重算公开样本并通过 AppTest 加载六个页面，也检查无结果、哈希损坏和数据口径状态。依赖未公开原始采集证据的旧测试带 `archive` 标记：干净克隆会明确 `skipped` 并报告缺失原因，绝不计为 passed。持有完整归档时增加 `--require-archives` 可强制要求归档存在，并执行原结果与新数值的逐表一致性检查。Windows 使用较短的测试临时路径；不要把 `--basetemp` 指向需要保留的目录。
 
-完整测试计数、干净克隆结果与原归档完整性记录见 [Phase 7 交付报告](docs/audit/phase7_report.md)。之前阶段的验证记录保持在 [Phase 6 报告](docs/audit/phase6_report.md)。
+最新完整测试及不手工 build 的冷启动验证见 [部署验收报告](docs/audit/phase7_deployment_report.md)。此前手工生成流程的记录保留在 [Phase 7 初次交付报告](docs/audit/phase7_report.md)，不能用来代替自动部署验收。之前阶段的验证记录保持在 [Phase 6 报告](docs/audit/phase6_report.md)。
 
 ## 剩余局限
 约三年历史，504日窗口后的共同评价仅207日，短子区间年化不稳定。固定Universe有选择/存续偏差，历史数据版本与可得时点未完全验证。
