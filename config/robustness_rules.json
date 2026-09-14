@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "windows": [
+    126,
+    252,
+    504
+  ],
+  "engines": [
+    "phase2",
+    "phase4"
+  ],
+  "phase2_strategies": [
+    "equal_weight",
+    "minimum_variance",
+    "inverse_volatility"
+  ],
+  "phase4_strategies": [
+    "equal_weight",
+    "inverse_volatility"
+  ],
+  "frequencies": [
+    "monthly",
+    "quarterly"
+  ],
+  "cost_bps": [
+    0,
+    5,
+    10,
+    20
+  ],
+  "annual_risk_free_rate": 0.02,
+  "minimum_period_observations": 30,
+  "bond_concentration_threshold": 0.7,
+  "parameter_selection": "none",
+  "groups": [
+    {
+      "group_id": "all_windows",
+      "inception_date": "2025-09-30",
+      "end_date": "2026-08-12",
+      "periods": [
+        {
+          "period_id": "full",
+          "start": "2025-10-09",
+          "end": "2026-08-12"
+        },
+        {
+          "period_id": "2025_Q4",
+          "start": "2025-10-09",
+          "end": "2025-12-31"
+        },
+        {
+          "period_id": "2026_Q1",
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        },
+        {
+          "period_id": "2026_remaining",
+          "start": "2026-04-01",
+          "end": "2026-08-12"
+        }
+      ]
+    },
+    {
+      "group_id": "extended_126_252",
+      "inception_date": "2024-09-30",
+      "end_date": "2026-08-12",
+      "periods": [
+        {
+          "period_id": "full",
+          "start": "2024-10-08",
+          "end": "2026-08-12"
+        },
+        {
+          "period_id": "2024_Q4",
+          "start": "2024-10-08",
+          "end": "2024-12-31"
+        },
+        {
+          "period_id": "2025",
+          "start": "2025-01-01",
+          "end": "2025-12-31"
+        },
+        {
+          "period_id": "2026_YTD",
+          "start": "2026-01-01",
+          "end": "2026-08-12"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "504 is explicitly skipped where history before fixed inception is insufficient.",
+    "Comparisons are within group and identical period dates only; overlapping groups/periods are not independent trials.",
+    "Phase2 monthly/quarterly means21/63 sessions from common inception; Phase4 uses calendar ends.",
+    "Do not choose a best parameter; report ranges, consistent directions and counterexamples."
+  ]
+}

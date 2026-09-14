@@ -3,6 +3,7 @@
 from datetime import date, datetime, time, timedelta, timezone
 import json
 import math
+import hashlib
 from pathlib import Path
 import re
 from typing import Any
@@ -81,11 +82,12 @@ def parse_eastmoney_response(payload: dict, asset: AssetConfig) -> pd.DataFrame:
             raise MarketDataError(f"Malformed Eastmoney kline for {asset.symbol}")
         try:
             close = float(fields[2])
+            volume = float(fields[5])
         except (TypeError, ValueError) as error:
             raise MarketDataError(
                 f"Non-numeric Eastmoney close for {asset.symbol}"
             ) from error
-        if not math.isfinite(close):
+        if not math.isfinite(close) or not math.isfinite(volume) or volume < 0:
             raise MarketDataError(f"Non-numeric Eastmoney close for {asset.symbol}")
 
         records.append(
@@ -95,12 +97,15 @@ def parse_eastmoney_response(payload: dict, asset: AssetConfig) -> pd.DataFrame:
                 "asset_name": asset.name,
                 "asset_class": asset.asset_class,
                 "close": close,
+                "volume": volume,
+                "source": "eastmoney",
+                "price_basis": "forward_adjusted",
             }
         )
 
     return pd.DataFrame.from_records(
         records,
-        columns=["date", "symbol", "asset_name", "asset_class", "close"],
+        columns=["date", "symbol", "asset_name", "asset_class", "close", "volume", "source", "price_basis"],
     )
 
 
@@ -140,6 +145,7 @@ def fetch_eastmoney_asset_prices(
         ) from error
 
     frame = parse_eastmoney_response(payload, asset)
+    frame = _provenance(frame, payload, start, end)
     raw_path = Path("data") / "raw" / f"eastmoney_{asset.symbol}.json"
     raw_path.parent.mkdir(parents=True, exist_ok=True)
     raw_path.write_text(
@@ -192,6 +198,8 @@ def parse_chart_response(payload: dict, asset: AssetConfig) -> pd.DataFrame:
             "asset_name": asset.name,
             "asset_class": asset.asset_class,
             "close": prices,
+            "source": "yahoo",
+            "price_basis": "adjusted_close" if quote_block.get("adjclose") else "unadjusted_close",
         }
     )
 
@@ -228,6 +236,7 @@ def fetch_asset_prices(
         ) from error
 
     frame = parse_chart_response(payload, asset)
+    frame = _provenance(frame, payload, start, end)
 
     raw_path = Path("data") / "raw" / f"{asset.symbol}.json"
     raw_path.parent.mkdir(parents=True, exist_ok=True)
@@ -240,3 +249,31 @@ def fetch_asset_prices(
 
 def _to_unix_timestamp(value: date) -> int:
     return int(datetime.combine(value, time.min, tzinfo=timezone.utc).timestamp())
+
+
+def _provenance(frame, payload, start, end):
+    """Attach retrieval/request/price-basis metadata and immutable raw snapshot.
+
+    Input is a parsed provider frame and raw JSON. Output retains normalized close
+    with explicit basis. Snapshot names include timestamp and SHA256 of raw bytes.
+    """
+    if start > end:
+        raise MarketDataError("Requested start must not exceed end")
+    timestamp = datetime.now(timezone.utc).isoformat()
+    frame = frame.copy()
+    frame["retrieval_timestamp"] = timestamp
+    frame["requested_start"] = start.isoformat()
+    frame["requested_end"] = end.isoformat()
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    digest = hashlib.sha256(raw).hexdigest()
+    folder = Path("data/raw/snapshots")
+    folder.mkdir(parents=True, exist_ok=True)
+    filename = timestamp.replace(":", "").replace("+", "_") + "_" + digest + ".json"
+    snapshot = folder / filename
+    snapshot.write_bytes(raw)
+    frame["raw_sha256"] = digest
+    frame["snapshot_path"] = snapshot.as_posix()
+    # Do not silently truncate out-of-range rows: upstream response is suspect.
+    if not frame.date.between(pd.Timestamp(start), pd.Timestamp(end)).all():
+        raise MarketDataError("Provider returned dates outside requested range")
+    return frame

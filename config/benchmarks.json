@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "verified_as_of": "2026-09-12",
+  "annualization_days": 252,
+  "rolling_window": 63,
+  "notes": "Official benchmarks are not replaced by total-return research references. Mapping history before cited documents is not fully independently verified.",
+  "etfs": [
+    {
+      "ticker": "510300.SS",
+      "name": "华泰柏瑞沪深300ETF",
+      "official_benchmark": {
+        "code": "000300",
+        "name": "沪深300指数",
+        "benchmark_type": "equity_price",
+        "definition_status": "confirmed",
+        "source": "fund manager / exchange official disclosure",
+        "evidence": [
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2025-10-28/510300_20251028_LQSR.pdf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "equity_close"
+      },
+      "research_reference": {
+        "code": "H00300",
+        "name": "沪深300指数全收益参考",
+        "benchmark_type": "equity_total_return",
+        "definition_status": "confirmed",
+        "source": "index administrator",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "evidence": [
+          "https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/000300factsheet.pdf"
+        ],
+        "role": "total_return_research_reference_not_official_fund_benchmark"
+      }
+    },
+    {
+      "ticker": "510500.SS",
+      "name": "南方中证500ETF",
+      "official_benchmark": {
+        "code": "000905",
+        "name": "中证500指数",
+        "benchmark_type": "equity_price",
+        "definition_status": "confirmed",
+        "source": "fund manager / exchange official disclosure",
+        "evidence": [
+          "https://www.nffund.com/main/files/2025/08/29/742110361683.pdf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "equity_close"
+      },
+      "research_reference": {
+        "code": "H00905",
+        "name": "中证500指数全收益参考",
+        "benchmark_type": "equity_total_return",
+        "definition_status": "confirmed",
+        "source": "index administrator",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "evidence": [
+          "https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/000905factsheet.pdf"
+        ],
+        "role": "total_return_research_reference_not_official_fund_benchmark"
+      }
+    },
+    {
+      "ticker": "159915.SZ",
+      "name": "易方达创业板ETF",
+      "official_benchmark": {
+        "code": "399006",
+        "name": "创业板指数",
+        "benchmark_type": "equity_price",
+        "definition_status": "confirmed",
+        "source": "fund manager / exchange official disclosure",
+        "evidence": [
+          "https://static.efunds.com.cn/html/fund/159915_fundinfo.htm"
+        ],
+        "currency": "CNY",
+        "valuation_time": "equity_close"
+      },
+      "research_reference": {
+        "code": "399606",
+        "name": "创业板指数全收益参考",
+        "benchmark_type": "equity_total_return",
+        "definition_status": "confirmed",
+        "source": "index administrator",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "evidence": [
+          "https://www.cnindex.com.cn/docs/gz_399606.pdf"
+        ],
+        "role": "total_return_research_reference_not_official_fund_benchmark"
+      }
+    },
+    {
+      "ticker": "518880.SS",
+      "name": "华安黄金ETF",
+      "official_benchmark": {
+        "code": "Au99.99",
+        "name": "上海黄金交易所Au99.99收盘价",
+        "benchmark_type": "gold_spot_close",
+        "definition_status": "confirmed",
+        "source": "fund manager / exchange official disclosure",
+        "evidence": [
+          "https://www.sge.com.cn/cpfw/hjetf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "SGE_close",
+        "underlying_contract": "Au99.99"
+      },
+      "research_reference": null
+    },
+    {
+      "ticker": "511010.SS",
+      "name": "国泰上证5年期国债ETF",
+      "official_benchmark": {
+        "code": "000140",
+        "name": "上证5年期国债指数（净价）",
+        "benchmark_type": "bond_clean_price",
+        "definition_status": "confirmed",
+        "source": "fund manager / exchange official disclosure",
+        "evidence": [
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2025-03-25/511010_20250325_77AR.pdf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "bond_index_close"
+      },
+      "research_reference": null
+    }
+  ]
+}

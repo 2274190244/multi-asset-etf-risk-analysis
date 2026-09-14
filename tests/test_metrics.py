@@ -101,7 +101,7 @@ def test_asset_metrics_uses_geometric_return_sample_volatility_and_sharpe_formul
 
     assert metrics.loc["A", "annualized_return"] == pytest.approx(0.857119336809513)
     assert metrics.loc["A", "annualized_volatility"] == pytest.approx(0.144913767461894)
-    assert metrics.loc["A", "sharpe_ratio"] == pytest.approx(5.776672233917574)
+    assert metrics.loc["A", "sharpe_ratio"] == pytest.approx((values.mean() - (1.02 ** (1/252)-1)) / values.std(ddof=1) * np.sqrt(252))
 
 
 def test_asset_metrics_contains_only_finite_values():
@@ -117,5 +117,9 @@ def test_asset_metrics_contains_only_finite_values():
         "sharpe_ratio",
         "maximum_drawdown",
         "historical_var",
+        "historical_cvar",
+        "downside_volatility",
+        "sortino_ratio",
+        "calmar_ratio",
     ]
     assert np.isfinite(metrics.to_numpy()).all()

@@ -28,7 +28,7 @@ def test_cli_creates_retrying_session_when_session_is_omitted(
         factory_calls.append(True)
         return configured_session
 
-    def fake_pipeline(start, end, output_dir, session=None):
+    def fake_pipeline(start, end, output_dir, session=None, **kwargs):
         received_sessions.append(session)
         return PipelineResult(
             Path(output_dir),
@@ -64,7 +64,7 @@ def test_cli_passes_injected_session_and_prints_computed_summary(
     injected_session = object()
     calls = []
 
-    def fake_pipeline(start, end, output_dir, session=None):
+    def fake_pipeline(start, end, output_dir, session=None, **kwargs):
         calls.append((start, end, Path(output_dir), session))
         return PipelineResult(
             Path(output_dir),
@@ -109,7 +109,7 @@ def test_cli_passes_injected_session_and_prints_computed_summary(
 
 
 def test_cli_returns_nonzero_and_lists_missing_assets(capsys, monkeypatch):
-    def fake_pipeline(start, end, output_dir, session=None):
+    def fake_pipeline(start, end, output_dir, session=None, **kwargs):
         return PipelineResult(
             Path(output_dir),
             {"510500.SS": "RuntimeError: unavailable"},
@@ -131,7 +131,7 @@ def test_cli_returns_nonzero_and_lists_missing_assets(capsys, monkeypatch):
 
 
 def test_cli_removes_request_url_from_http_failure(capsys, monkeypatch):
-    def fake_pipeline(start, end, output_dir, session=None):
+    def fake_pipeline(start, end, output_dir, session=None, **kwargs):
         return PipelineResult(
             Path(output_dir),
             {

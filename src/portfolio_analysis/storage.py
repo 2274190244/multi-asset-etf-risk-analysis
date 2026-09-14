@@ -47,5 +47,6 @@ def write_analysis_database(
 def _validate_table_names(tables: Mapping[str, pd.DataFrame]) -> None:
     """Ensure consumers receive exactly the storage schema they expect."""
     actual_names = set(tables)
-    if actual_names != _EXPECTED_TABLES:
+    optional = {"asset_data_quality", "data_quality_events", "source_metadata"}
+    if not _EXPECTED_TABLES.issubset(actual_names) or actual_names - _EXPECTED_TABLES - optional:
         raise ValueError("Expected exactly the analysis tables")

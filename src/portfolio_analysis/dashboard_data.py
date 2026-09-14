@@ -1,9 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from portfolio_analysis.metrics import RISK_METRICS
 
 
 class DashboardDataError(ValueError):
@@ -113,6 +114,19 @@ CSV_SPECS = {
     ),
 }
 
+for _name in ("asset_metrics", "portfolio_metrics"):
+    _old=CSV_SPECS[_name]
+    CSV_SPECS[_name]=CsvSpec(_old.relative_path,
+        tuple(dict.fromkeys((*_old.required_columns,*RISK_METRICS))),
+        numeric_columns=RISK_METRICS,
+        nullable_numeric_columns=("sharpe_ratio","sortino_ratio","calmar_ratio"))
+CSV_SPECS["asset_data_quality"]=CsvSpec("powerbi/asset_data_quality.csv",
+    ("ticker","first_date","last_date","observation_count","missing_count","duplicate_count","coverage","anomaly_count"),
+    date_columns=("first_date","last_date"),
+    numeric_columns=("observation_count","missing_count","duplicate_count","coverage","anomaly_count"))
+CSV_SPECS["source_metadata"]=CsvSpec("powerbi/source_metadata.csv",
+    ("symbol","source","price_basis","retrieval_timestamp","requested_start","requested_end"))
+
 
 @dataclass(frozen=True)
 class DashboardData:
@@ -124,6 +138,9 @@ class DashboardData:
     portfolio_weights: pd.DataFrame
     data_quality: pd.DataFrame
     resume_facts: dict
+    asset_data_quality: pd.DataFrame
+    source_metadata: pd.DataFrame
+    methodology: dict = field(default_factory=dict)
 
     @property
     def asset_names(self) -> dict[str, str]:
@@ -160,7 +177,7 @@ def _load_csv(package_root: Path, spec: CsvSpec) -> pd.DataFrame:
 
     for column in spec.numeric_columns:
         converted = pd.to_numeric(frame[column], errors="coerce")
-        if column not in spec.nullable_numeric_columns and converted.isna().any():
+        if (converted.isna() & frame[column].notna()).any() or (column not in spec.nullable_numeric_columns and converted.isna().any()):
             raise DashboardDataError(
                 f"{spec.relative_path} 的 {column} 字段包含缺失或非数值内容"
             )
@@ -219,15 +236,28 @@ def _load_resume_facts(package_root: Path) -> dict:
 
 
 def load_dashboard_data(project_root: str | Path) -> DashboardData:
-    package_root = Path(project_root) / "output_verified"
+    package_root = Path(project_root) / "output_phase1"
+    try:
+        methodology=json.loads((package_root/"methodology.json").read_text(encoding="utf-8"))
+    except (OSError,ValueError) as exc:
+        raise DashboardDataError(f"无法读取修复后的方法记录：{exc}") from exc
+    if methodology.get("status")!="complete":
+        raise DashboardDataError("此分析包仅包含质量报告，尚无可靠组合绩效")
     frames = {
         name: _load_csv(package_root, spec) for name, spec in CSV_SPECS.items()
     }
+    for name,key,status_key in [("asset_metrics","symbol","asset_metric_status"),
+                                ("portfolio_metrics","portfolio","portfolio_metric_status")]:
+        for _,row in frames[name].iterrows():
+            for metric in ("sharpe_ratio","sortino_ratio","calmar_ratio"):
+                if pd.isna(row[metric]) and not str(methodology.get(status_key,{}).get(
+                    row[key],{}).get(metric,"")).startswith("undefined_"):
+                    raise DashboardDataError(f"{name} 缺失指标没有原因：{metric}")
     facts = _load_resume_facts(package_root)
     observed = {
         "price_rows": len(frames["prices"]),
         "asset_count": frames["asset_metrics"]["symbol"].nunique(),
-        "risk_metric_count": 5,
+        "risk_metric_count": len(RISK_METRICS),
         "portfolio_count": frames["portfolio_metrics"]["portfolio"].nunique(),
         "start_date": frames["prices"]["date"].min().date().isoformat(),
         "end_date": frames["prices"]["date"].max().date().isoformat(),
@@ -242,6 +272,7 @@ def load_dashboard_data(project_root: str | Path) -> DashboardData:
     return DashboardData(
         **frames,
         resume_facts=facts,
+        methodology=methodology,
     )
 
 
@@ -310,8 +341,7 @@ def portfolio_cumulative_returns(
 
     result = result.sort_values(["portfolio", "date"])
     growth = (1.0 + result["daily_return"]).groupby(result["portfolio"]).cumprod()
-    start_growth = growth.groupby(result["portfolio"]).transform("first")
-    result["cumulative_return"] = growth / start_growth - 1.0
+    result["cumulative_return"] = growth - 1.0
     return result.reset_index(drop=True)
 
 
@@ -327,7 +357,7 @@ def portfolio_drawdowns(portfolio_timeseries: pd.DataFrame) -> pd.DataFrame:
     if (result["wealth"] <= 0).any() or not np.isfinite(result["wealth"]).all():
         raise DashboardDataError("组合累计收益无法转换为有效累计财富")
 
-    running_peak = result.groupby("portfolio")["wealth"].cummax()
+    running_peak = result.groupby("portfolio")["wealth"].cummax().clip(lower=1.0)
     result["drawdown"] = (result["wealth"] / running_peak - 1.0).clip(upper=0.0)
     return result[["date", "portfolio", "drawdown"]].reset_index(drop=True)
 

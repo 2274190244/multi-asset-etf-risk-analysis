@@ -1,0 +1,2122 @@
+{
+  "schema_version": 1,
+  "sample_id": "phase1-5-normalized-2026-08-12-v1",
+  "raw_evidence_included": false,
+  "start": "2023-08-14",
+  "end": "2026-08-12",
+  "market_source": {
+    "source": "Eastmoney",
+    "price_basis": "forward_adjusted_market_price_NOT_NAV",
+    "retrieval_timestamp": "unknown_legacy_snapshot",
+    "requested_start": "2023-08-12",
+    "requested_end": "2026-08-12",
+    "url": "https://quote.eastmoney.com/",
+    "raw_sha256": {
+      "159915.SZ": "0a3a6e0e0eb6634e6cab03f43c1265481c7d7830f5c5cfb416e97e7770f8218f",
+      "510300.SS": "5868eaa8b4682aac5debd2efa3b71e46522c9dcd0ce087b4e62d06c1879059d3",
+      "510500.SS": "2ec2d6b1e2519cd61535fe6e93b395a26496f9171345cb2d9a5bfaa580e80edf",
+      "511010.SS": "1c32eb5f93da20edc1a10cd5053e65f5887d52cff0735448ddf49683a8f506a3",
+      "518880.SS": "0b182ebae7bcac78865adcf6df3364f7c66583eed8a564855d8e007333db0b9d"
+    }
+  },
+  "pairs": {
+    "510300.SS__official": {
+      "etf_series": "etf:510300.SS",
+      "benchmark_series": "benchmark:000300",
+      "etf": {
+        "source": "Eastmoney",
+        "price_basis": "unit_nav_with_cash_action_records",
+        "retrieval_timestamp": "2026-09-10T22:24:11.728030+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://fund.eastmoney.com/pingzhongdata/510300.js",
+        "sha256": "1c6173ea40e7a1b0d453c455ff07748e88f0d547b2c4c45e1bceab0f02437c69",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "return_basis_verified": true,
+        "evidence": [
+          "https://fund.eastmoney.com/pingzhongdata/510300.js",
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2024-01-11/510300_20240111_QQFV.pdf",
+          "https://static.cninfo.com.cn/finalpage/2025-06-11/1223837903.PDF",
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2026-01-12/510300_20260112_VTCZ.pdf"
+        ],
+        "corporate_action_completeness": "Vendor event completeness assumed; listed equity cash events corroborated, absence of unlisted actions not independently certified.",
+        "reinvestment_convention": "Theoretical ex-date cash reinvestment: (NAV_t + cash_t) / NAV_previous; not actual cash payment-date execution."
+      },
+      "benchmark": {
+        "code": "000300",
+        "name": "沪深300指数",
+        "benchmark_type": "equity_price",
+        "definition_status": "confirmed",
+        "source": "CSI official",
+        "evidence": [
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2025-10-28/510300_20251028_LQSR.pdf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "price_basis": "index_close_000300",
+        "retrieval_timestamp": "2026-09-12T04:20:40.950543+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=000300&startDate=20230814&endDate=20260812",
+        "sha256": "af8bcb71a616910bc03e3adfeb948ec813082a38e6734cdedd69515091a3ff0e",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "comparison_role": "official"
+      }
+    },
+    "510300.SS__total_return_reference": {
+      "etf_series": "etf:510300.SS",
+      "benchmark_series": "benchmark:H00300",
+      "etf": {
+        "source": "Eastmoney",
+        "price_basis": "unit_nav_with_cash_action_records",
+        "retrieval_timestamp": "2026-09-10T22:24:11.728030+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://fund.eastmoney.com/pingzhongdata/510300.js",
+        "sha256": "1c6173ea40e7a1b0d453c455ff07748e88f0d547b2c4c45e1bceab0f02437c69",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "return_basis_verified": true,
+        "evidence": [
+          "https://fund.eastmoney.com/pingzhongdata/510300.js",
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2024-01-11/510300_20240111_QQFV.pdf",
+          "https://static.cninfo.com.cn/finalpage/2025-06-11/1223837903.PDF",
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2026-01-12/510300_20260112_VTCZ.pdf"
+        ],
+        "corporate_action_completeness": "Vendor event completeness assumed; listed equity cash events corroborated, absence of unlisted actions not independently certified.",
+        "reinvestment_convention": "Theoretical ex-date cash reinvestment: (NAV_t + cash_t) / NAV_previous; not actual cash payment-date execution."
+      },
+      "benchmark": {
+        "code": "H00300",
+        "name": "沪深300指数全收益参考",
+        "benchmark_type": "equity_total_return",
+        "definition_status": "confirmed",
+        "source": "CSI official",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "evidence": [
+          "https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/000300factsheet.pdf"
+        ],
+        "role": "total_return_research_reference_not_official_fund_benchmark",
+        "price_basis": "index_close_H00300",
+        "retrieval_timestamp": "2026-09-12T04:21:49.147313+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=H00300&startDate=20230814&endDate=20260812",
+        "sha256": "19839b52dd1eb61d4cf1400bc3111e4f73aff53f9b4fb078961f9d5007c1f26f",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "comparison_role": "total_return_reference"
+      }
+    },
+    "510500.SS__official": {
+      "etf_series": "etf:510500.SS",
+      "benchmark_series": "benchmark:000905",
+      "etf": {
+        "source": "Eastmoney",
+        "price_basis": "unit_nav_with_cash_action_records",
+        "retrieval_timestamp": "2026-09-10T22:24:11.333645+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://fund.eastmoney.com/pingzhongdata/510500.js",
+        "sha256": "ee7ccd1feef3286ab6d457f553e1931ec9c236de1430ef084aa61d1a8c95339e",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "return_basis_verified": true,
+        "evidence": [
+          "https://fund.eastmoney.com/pingzhongdata/510500.js",
+          "https://www.nffund.com/main/files/2024/05/09/446881768060.pdf",
+          "https://www.nffund.com/main/files/2025/01/08/255916276908.pdf",
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2026-01-09/510500_20260109_5K7U.pdf",
+          "https://cms.crsec.com.cn:8010/files/file/2026/07/09/71b7dede-911d-42e3-946e-bd5fe88db9e6.pdf"
+        ],
+        "corporate_action_completeness": "Vendor event completeness assumed; listed equity cash events corroborated, absence of unlisted actions not independently certified.",
+        "reinvestment_convention": "Theoretical ex-date cash reinvestment: (NAV_t + cash_t) / NAV_previous; not actual cash payment-date execution."
+      },
+      "benchmark": {
+        "code": "000905",
+        "name": "中证500指数",
+        "benchmark_type": "equity_price",
+        "definition_status": "confirmed",
+        "source": "CSI official",
+        "evidence": [
+          "https://www.nffund.com/main/files/2025/08/29/742110361683.pdf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "price_basis": "index_close_000905",
+        "retrieval_timestamp": "2026-09-12T04:21:49.147313+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=000905&startDate=20230814&endDate=20260812",
+        "sha256": "61fd9344a2808af8ec71dd41e3714800f6fde813ced2ba2111154c30e51988d9",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "comparison_role": "official"
+      }
+    },
+    "510500.SS__total_return_reference": {
+      "etf_series": "etf:510500.SS",
+      "benchmark_series": "benchmark:H00905",
+      "etf": {
+        "source": "Eastmoney",
+        "price_basis": "unit_nav_with_cash_action_records",
+        "retrieval_timestamp": "2026-09-10T22:24:11.333645+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://fund.eastmoney.com/pingzhongdata/510500.js",
+        "sha256": "ee7ccd1feef3286ab6d457f553e1931ec9c236de1430ef084aa61d1a8c95339e",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "return_basis_verified": true,
+        "evidence": [
+          "https://fund.eastmoney.com/pingzhongdata/510500.js",
+          "https://www.nffund.com/main/files/2024/05/09/446881768060.pdf",
+          "https://www.nffund.com/main/files/2025/01/08/255916276908.pdf",
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2026-01-09/510500_20260109_5K7U.pdf",
+          "https://cms.crsec.com.cn:8010/files/file/2026/07/09/71b7dede-911d-42e3-946e-bd5fe88db9e6.pdf"
+        ],
+        "corporate_action_completeness": "Vendor event completeness assumed; listed equity cash events corroborated, absence of unlisted actions not independently certified.",
+        "reinvestment_convention": "Theoretical ex-date cash reinvestment: (NAV_t + cash_t) / NAV_previous; not actual cash payment-date execution."
+      },
+      "benchmark": {
+        "code": "H00905",
+        "name": "中证500指数全收益参考",
+        "benchmark_type": "equity_total_return",
+        "definition_status": "confirmed",
+        "source": "CSI official",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "evidence": [
+          "https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/000905factsheet.pdf"
+        ],
+        "role": "total_return_research_reference_not_official_fund_benchmark",
+        "price_basis": "index_close_H00905",
+        "retrieval_timestamp": "2026-09-12T04:21:49.147313+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=H00905&startDate=20230814&endDate=20260812",
+        "sha256": "261e77d1c714892cf473586485a5c24842d5ce00b6e2c42ae3d5d639726bfd74",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "comparison_role": "total_return_reference"
+      }
+    },
+    "159915.SZ__official": {
+      "etf_series": "etf:159915.SZ",
+      "benchmark_series": "benchmark:399006",
+      "etf": {
+        "source": "E Fund",
+        "price_basis": "official_cumulative_nav_growth",
+        "retrieval_timestamp": "2026-09-12T04:24:05.649205+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://cdn.efunds.com.cn/market/2.0/159915_1y.js",
+        "sha256": "2e1d94a159b796678d42375982374bffa27bbd7bc6789c8ce80fedc2d59c1a33",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "return_basis_verified": true,
+        "evidence": [
+          "https://cdn.efunds.com.cn/market/2.0/his/159915_all.js",
+          "https://cdn.efunds.com.cn/market/2.0/159915_1y.js",
+          "https://www.efunds.com.cn/js/fund_details/product-detail-overview.js?7905e4a6"
+        ],
+        "field": "1 + EnumSourceTypeAccIncomeRatio; not additive cumulative NAV",
+        "merge_audit": {
+          "identical_duplicates_removed": 74
+        }
+      },
+      "benchmark": {
+        "code": "399006",
+        "name": "创业板指数",
+        "benchmark_type": "equity_price",
+        "definition_status": "confirmed",
+        "source": "Eastmoney index history",
+        "evidence": [
+          "https://static.efunds.com.cn/html/fund/159915_fundinfo.htm"
+        ],
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "price_basis": "unadjusted_index_close_399006",
+        "retrieval_timestamp": "2026-09-12T04:27:55.318121+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399006&klt=101&fqt=0&beg=20230812&end=20260812&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56",
+        "sha256": "3a1655693bc9412c2f2ec37968adec5290a9e8f8da4913099dc01fec932119c5",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "comparison_role": "official"
+      }
+    },
+    "159915.SZ__total_return_reference": {
+      "etf_series": "etf:159915.SZ",
+      "benchmark_series": "benchmark:399606",
+      "etf": {
+        "source": "E Fund",
+        "price_basis": "official_cumulative_nav_growth",
+        "retrieval_timestamp": "2026-09-12T04:24:05.649205+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://cdn.efunds.com.cn/market/2.0/159915_1y.js",
+        "sha256": "2e1d94a159b796678d42375982374bffa27bbd7bc6789c8ce80fedc2d59c1a33",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "return_basis_verified": true,
+        "evidence": [
+          "https://cdn.efunds.com.cn/market/2.0/his/159915_all.js",
+          "https://cdn.efunds.com.cn/market/2.0/159915_1y.js",
+          "https://www.efunds.com.cn/js/fund_details/product-detail-overview.js?7905e4a6"
+        ],
+        "field": "1 + EnumSourceTypeAccIncomeRatio; not additive cumulative NAV",
+        "merge_audit": {
+          "identical_duplicates_removed": 74
+        }
+      },
+      "benchmark": {
+        "code": "399606",
+        "name": "创业板指数全收益参考",
+        "benchmark_type": "equity_total_return",
+        "definition_status": "confirmed",
+        "source": "Eastmoney index history",
+        "currency": "CNY",
+        "valuation_time": "equity_close",
+        "evidence": [
+          "https://www.cnindex.com.cn/docs/gz_399606.pdf"
+        ],
+        "role": "total_return_research_reference_not_official_fund_benchmark",
+        "price_basis": "unadjusted_index_close_399606",
+        "retrieval_timestamp": "2026-09-10T22:23:28.154080+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399606&klt=101&fqt=0&beg=20230812&end=20260812&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56",
+        "sha256": "0ab39049e2f7ab0910815537fc62804bae4c170227dd6426b87b74e6d1be419f",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "comparison_role": "total_return_reference"
+      }
+    },
+    "518880.SS__official": {
+      "etf_series": "etf:518880.SS",
+      "benchmark_series": "benchmark:Au99.99",
+      "etf": {
+        "source": "Eastmoney",
+        "price_basis": "unit_nav_with_cash_action_records",
+        "retrieval_timestamp": "2026-09-10T22:24:10.626586+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://fund.eastmoney.com/pingzhongdata/518880.js",
+        "sha256": "037c65e842bf1ed1ca5528d1b512ae06f42d0843ac306273d147c79325012633",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "unknown",
+        "return_basis_verified": false,
+        "evidence": [
+          "https://fund.eastmoney.com/pingzhongdata/518880.js"
+        ],
+        "corporate_action_completeness": "Vendor event completeness assumed; listed equity cash events corroborated, absence of unlisted actions not independently certified.",
+        "reinvestment_convention": "Theoretical ex-date cash reinvestment: (NAV_t + cash_t) / NAV_previous; not actual cash payment-date execution.",
+        "underlying_contract": "Au99.99"
+      },
+      "benchmark": {
+        "code": "Au99.99",
+        "name": "上海黄金交易所Au99.99收盘价",
+        "benchmark_type": "gold_spot_close",
+        "definition_status": "confirmed",
+        "source": "Shanghai Gold Exchange official",
+        "evidence": [
+          "https://www.sge.com.cn/cpfw/hjetf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "SGE_close",
+        "underlying_contract": "Au99.99",
+        "price_basis": "Au99.99_spot_close",
+        "retrieval_timestamp": "2026-09-12T04:28:31.719738+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "merge_audit": {
+          "identical_duplicates_removed": 0
+        },
+        "data_status": "available",
+        "comparison_role": "official",
+        "calendar_status": "Observed SGE dates union XSHG; independent SGE holiday calendar not verified"
+      }
+    },
+    "511010.SS__official": {
+      "etf_series": "etf:511010.SS",
+      "benchmark_series": "benchmark:000140",
+      "etf": {
+        "source": "Eastmoney",
+        "price_basis": "unit_nav_with_cash_action_records",
+        "retrieval_timestamp": "2026-09-10T22:24:11.132070+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://fund.eastmoney.com/pingzhongdata/511010.js",
+        "sha256": "6d2d54dce209e9469ff4bdc432d4506d2157b1dfa7b127bb77fe25b32b16e045",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "value_type": "nav_total_return",
+        "currency": "CNY",
+        "valuation_time": "unknown",
+        "return_basis_verified": false,
+        "evidence": [
+          "https://fund.eastmoney.com/pingzhongdata/511010.js"
+        ],
+        "corporate_action_completeness": "Vendor event completeness assumed; listed equity cash events corroborated, absence of unlisted actions not independently certified.",
+        "reinvestment_convention": "Theoretical ex-date cash reinvestment: (NAV_t + cash_t) / NAV_previous; not actual cash payment-date execution."
+      },
+      "benchmark": {
+        "code": "000140",
+        "name": "上证5年期国债指数（净价）",
+        "benchmark_type": "bond_clean_price",
+        "definition_status": "confirmed",
+        "source": "CSI official",
+        "evidence": [
+          "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2025-03-25/511010_20250325_77AR.pdf"
+        ],
+        "currency": "CNY",
+        "valuation_time": "bond_index_close",
+        "price_basis": "index_close_000140",
+        "retrieval_timestamp": "2026-09-12T04:21:49.158778+00:00",
+        "requested_start": "2023-08-14",
+        "requested_end": "2026-08-12",
+        "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=000140&startDate=20230814&endDate=20260812",
+        "sha256": "3c7ba7a54baa066053bfb29469257548dbf8a0ecafee310fbbc024a3648bc49a",
+        "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained.",
+        "data_status": "available",
+        "comparison_role": "official"
+      }
+    }
+  },
+  "sources": [
+    {
+      "source": "Eastmoney",
+      "price_basis": "unit_nav_with_cash_action_records",
+      "retrieval_timestamp": "2026-09-10T22:24:11.728030+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://fund.eastmoney.com/pingzhongdata/510300.js",
+      "sha256": "1c6173ea40e7a1b0d453c455ff07748e88f0d547b2c4c45e1bceab0f02437c69",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Eastmoney",
+      "price_basis": "unit_nav_with_cash_action_records",
+      "retrieval_timestamp": "2026-09-10T22:24:11.333645+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://fund.eastmoney.com/pingzhongdata/510500.js",
+      "sha256": "ee7ccd1feef3286ab6d457f553e1931ec9c236de1430ef084aa61d1a8c95339e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Eastmoney",
+      "price_basis": "unit_nav_with_cash_action_records",
+      "retrieval_timestamp": "2026-09-10T22:23:28.359757+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://fund.eastmoney.com/pingzhongdata/159915.js",
+      "sha256": "e46395a0436a9c603dcfbdae9b82a4143bc38decedf01268255e0986c9e132e8",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Eastmoney",
+      "price_basis": "unit_nav_with_cash_action_records",
+      "retrieval_timestamp": "2026-09-10T22:24:10.626586+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://fund.eastmoney.com/pingzhongdata/518880.js",
+      "sha256": "037c65e842bf1ed1ca5528d1b512ae06f42d0843ac306273d147c79325012633",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Eastmoney",
+      "price_basis": "unit_nav_with_cash_action_records",
+      "retrieval_timestamp": "2026-09-10T22:24:11.132070+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://fund.eastmoney.com/pingzhongdata/511010.js",
+      "sha256": "6d2d54dce209e9469ff4bdc432d4506d2157b1dfa7b127bb77fe25b32b16e045",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "E Fund",
+      "price_basis": "official_cumulative_nav_growth",
+      "retrieval_timestamp": "2026-09-10T22:24:43.049206+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://cdn.efunds.com.cn/market/2.0/his/159915_all.js",
+      "sha256": "f1357c42afc2d48a1b55724ad9ffef7c6cfb6490d1a8490c98144cb5ac12aae2",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "E Fund",
+      "price_basis": "official_cumulative_nav_growth",
+      "retrieval_timestamp": "2026-09-12T04:24:05.649205+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://cdn.efunds.com.cn/market/2.0/159915_1y.js",
+      "sha256": "2e1d94a159b796678d42375982374bffa27bbd7bc6789c8ce80fedc2d59c1a33",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "CSI official",
+      "price_basis": "index_close_000300",
+      "retrieval_timestamp": "2026-09-12T04:20:40.950543+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=000300&startDate=20230814&endDate=20260812",
+      "sha256": "af8bcb71a616910bc03e3adfeb948ec813082a38e6734cdedd69515091a3ff0e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "CSI official",
+      "price_basis": "index_close_H00300",
+      "retrieval_timestamp": "2026-09-12T04:21:49.147313+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=H00300&startDate=20230814&endDate=20260812",
+      "sha256": "19839b52dd1eb61d4cf1400bc3111e4f73aff53f9b4fb078961f9d5007c1f26f",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "CSI official",
+      "price_basis": "index_close_000905",
+      "retrieval_timestamp": "2026-09-12T04:21:49.147313+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=000905&startDate=20230814&endDate=20260812",
+      "sha256": "61fd9344a2808af8ec71dd41e3714800f6fde813ced2ba2111154c30e51988d9",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "CSI official",
+      "price_basis": "index_close_H00905",
+      "retrieval_timestamp": "2026-09-12T04:21:49.147313+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=H00905&startDate=20230814&endDate=20260812",
+      "sha256": "261e77d1c714892cf473586485a5c24842d5ce00b6e2c42ae3d5d639726bfd74",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "CSI official",
+      "price_basis": "index_close_000140",
+      "retrieval_timestamp": "2026-09-12T04:21:49.158778+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCode=000140&startDate=20230814&endDate=20260812",
+      "sha256": "3c7ba7a54baa066053bfb29469257548dbf8a0ecafee310fbbc024a3648bc49a",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Eastmoney index history",
+      "price_basis": "unadjusted_index_close_399006",
+      "retrieval_timestamp": "2026-09-12T04:27:55.318121+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399006&klt=101&fqt=0&beg=20230812&end=20260812&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56",
+      "sha256": "3a1655693bc9412c2f2ec37968adec5290a9e8f8da4913099dc01fec932119c5",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Eastmoney index history",
+      "price_basis": "unadjusted_index_close_399606",
+      "retrieval_timestamp": "2026-09-10T22:23:28.154080+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399606&klt=101&fqt=0&beg=20230812&end=20260812&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56",
+      "sha256": "0ab39049e2f7ab0910815537fc62804bae4c170227dd6426b87b74e6d1be419f",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:23.791869+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-01-01&end_date=2024-01-31&inst_ids=Au99.99",
+      "sha256": "a30fb2e3b0fad160a1a66b427626ac4f910bf50429ce301197d07e704e228f68",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:41.424064+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-01-01&end_date=2024-01-31&inst_ids=Au99.99&p=2",
+      "sha256": "b37cb788e1bc0c6a88bd1ef425b3de7645a87c84ff896927099bc6d66d0f382b",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:23.791869+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-02-01&end_date=2024-02-29&inst_ids=Au99.99",
+      "sha256": "5b93cc755a06613be193447b9540cacb85b0806b7d5d0e1852fcea621adab517",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:23.794503+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-03-01&end_date=2024-03-31&inst_ids=Au99.99",
+      "sha256": "59904a72460a45e044d768acf04e8325cbf913a9a7162edca8e5a7f3750edf48",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:41.424064+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-03-01&end_date=2024-03-31&inst_ids=Au99.99&p=2",
+      "sha256": "873bfc3e3fda963e8d55fa80551fa0b3ae23e157e4925d352a5d69386d00ce50",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:23.795934+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-04-01&end_date=2024-04-30&inst_ids=Au99.99",
+      "sha256": "676ba91ddc08493eb07f6c8b0262af3e7246860bcf10fead61cb3c2d75bee14a",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:23.797606+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-05-01&end_date=2024-05-31&inst_ids=Au99.99",
+      "sha256": "395a334ade0420c8b036cf9154bc962ca2b561e1c0a0de3cbbf10fa5bc66ffe1",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:31.685152+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-06-01&end_date=2024-06-30&inst_ids=Au99.99",
+      "sha256": "12a1522b402d2b95a0dd9954855d2f93e540e39fd07df81d341ac733dfb99a9f",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:39.157050+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-07-01&end_date=2024-07-31&inst_ids=Au99.99",
+      "sha256": "5050158dbb9392823c036e3a0f93f723bb7829cf7b7078d704907f15652e2734",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:41.424064+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-07-01&end_date=2024-07-31&inst_ids=Au99.99&p=2",
+      "sha256": "a2c73dc8fe7909f6dcfee7bc60b0f7bb66b3915969247f473ad029e332d02501",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:42.599152+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-08-01&end_date=2024-08-31&inst_ids=Au99.99",
+      "sha256": "8e3fa5866bde434ee2d656fdf05d3c14a12b11c8a9a5acc05f7a7bc067b24c79",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:41.424064+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-08-01&end_date=2024-08-31&inst_ids=Au99.99&p=2",
+      "sha256": "d02b78141fa442314acc0ef02a59e9d580e372a89421e7ad5bef0e36944f3ec0",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:43.148187+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-09-01&end_date=2024-09-30&inst_ids=Au99.99",
+      "sha256": "a6d063d93ac33c5f074bd7d90faf819e601aedf1ee7591e10c3c13ee2bae3c46",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:49.757597+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-10-01&end_date=2024-10-31&inst_ids=Au99.99",
+      "sha256": "6dab6e74022de54e073840a17e0c4a18e0564d9f30e1b12f51096deba32b2d94",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:54.146801+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-11-01&end_date=2024-11-30&inst_ids=Au99.99",
+      "sha256": "e02f21dd1ecd76048299c3b3c4727d7175d0b0ebe21a019f2b45f3f37c47b722",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:41.424064+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-11-01&end_date=2024-11-30&inst_ids=Au99.99&p=2",
+      "sha256": "06ee137d2817e5850e9a11e16523b8257f3d81164bd3d4f047ad3a17a4653e08",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:59.282311+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-12-01&end_date=2024-12-31&inst_ids=Au99.99",
+      "sha256": "5be24360108f7bfa83ba4c4f969ef30057e848f388988e09068fcf0c687a9dc1",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:52.249775+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2024-12-01&end_date=2024-12-31&inst_ids=Au99.99&p=2",
+      "sha256": "1cfa95d5e59511ada1e3faa75fd2e2c27ccda4d2efb437f6cdeb960ab2c09412",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:22:59.674321+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-01-01&end_date=2025-01-31&inst_ids=Au99.99",
+      "sha256": "9d276a1f04a84efe890416303885b135ca455743d6236248d8c588451cbb6716",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:00.114954+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-02-01&end_date=2025-02-28&inst_ids=Au99.99",
+      "sha256": "cc60dc8d8ab3a2a0f74c81e585f5fa0d8feecd1967999f1b2b065e45118ad8b6",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:00.490058+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-03-01&end_date=2025-03-31&inst_ids=Au99.99",
+      "sha256": "c01557f166dea5443df13e1e1b31fc3bf3adf98ba67f7b3450ce2dc288f1c3c7",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:54.642135+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-03-01&end_date=2025-03-31&inst_ids=Au99.99&p=2",
+      "sha256": "31c270dfc3c07e76497c18030ed6117dcfaf800d48a51765f36c2a76eb0c8553",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:10.670271+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-04-01&end_date=2025-04-30&inst_ids=Au99.99",
+      "sha256": "b0f22b9cda9fd58a952f3076e7c475931d48e573bd6194f8663a5be3399fe0e7",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:54.848777+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-04-01&end_date=2025-04-30&inst_ids=Au99.99&p=2",
+      "sha256": "ada54bcf8c6fd6ba4607f01078bf05294a12372f5de87044b25519fa502c228a",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:17.791467+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-05-01&end_date=2025-05-31&inst_ids=Au99.99",
+      "sha256": "57aa2389eb93c4597621b7d056464486939b431f4c8446aa7a0bdc064f032291",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:19.743693+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-06-01&end_date=2025-06-30&inst_ids=Au99.99",
+      "sha256": "5ecd406bd0a5bcea0b5addef9158c4a44f428c5c83946d434fc6f775eeb57866",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:22.487691+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-07-01&end_date=2025-07-31&inst_ids=Au99.99",
+      "sha256": "52e59ac58797061b5b57e1e2c816d5d3059d075bdadc5d01d466221921d19c7d",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:57.817081+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-07-01&end_date=2025-07-31&inst_ids=Au99.99&p=2",
+      "sha256": "15a12c4e2386ad3efc2f87b201a28fb8822b80e395444d5cec2e18abb7cb675e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:24.697048+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-08-01&end_date=2025-08-31&inst_ids=Au99.99",
+      "sha256": "3aa4daea62fb5d2080acef4536ca001cc454b1bb3b40c2f6a40f60d3263570b5",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:59.811080+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-08-01&end_date=2025-08-31&inst_ids=Au99.99&p=2",
+      "sha256": "4743bf4bebed542fe39ce4a1aee9738c7a53f93243386ea977fe0b4a50b1665e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:26.438874+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-09-01&end_date=2025-09-30&inst_ids=Au99.99",
+      "sha256": "50de084176f922d16eaea08cd4338de12b8b6754524ebdc5ada580dd2b3cdaf4",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:03.493451+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-09-01&end_date=2025-09-30&inst_ids=Au99.99&p=2",
+      "sha256": "c3a09e20052c3b78bdde17cab25da8c384f47873c05a0e1e6ff886b2890935f2",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:27.813991+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-10-01&end_date=2025-10-31&inst_ids=Au99.99",
+      "sha256": "498e2fc4ec026072e029c38cd7190a90986fe3947157e8fd0d148aa044126c21",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:31.819552+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-11-01&end_date=2025-11-30&inst_ids=Au99.99",
+      "sha256": "c1a3507b33ba6ad0f438dc9f7306d19644bb56c3f76702a8c02afe20f02848f3",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:33.163970+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-12-01&end_date=2025-12-31&inst_ids=Au99.99",
+      "sha256": "2d1eb3df322cbc7ffaa4a000dbfb767f068228296ec4035e09c6d7b89da860dc",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:04.977027+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2025-12-01&end_date=2025-12-31&inst_ids=Au99.99&p=2",
+      "sha256": "f288f2aba575097f40d35b70d6fa2d16fe7530dd170548784b9e9a8546e5810e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:37.566346+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-01-01&end_date=2026-01-31&inst_ids=Au99.99",
+      "sha256": "859bf214e134fff5d9c11c8975a875bf414150135ca685fb4390abf862971497",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:43.637012+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-02-01&end_date=2026-02-28&inst_ids=Au99.99",
+      "sha256": "780de386d4d1be6b65fa9d5f9e0e681f2fbb469bc48ea6e51650abd427f6b1ce",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:44.464033+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-03-01&end_date=2026-03-31&inst_ids=Au99.99",
+      "sha256": "6a0dc449264ffdf1a85cf884ce95ca21c1f328cd146b703132372ba4afa5d429",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:08.234257+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-03-01&end_date=2026-03-31&inst_ids=Au99.99&p=2",
+      "sha256": "693888ced3f739d8ab1b72a6b4d1202f3188e213296204821a7e94ce2c90e0e6",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:47.981596+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-04-01&end_date=2026-04-30&inst_ids=Au99.99",
+      "sha256": "6c7c52764f7a2d40f1061a359ec89eb795c0934eaf03f4f5cfb77897ebdd52c5",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:09.935094+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-04-01&end_date=2026-04-30&inst_ids=Au99.99&p=2",
+      "sha256": "73e6fa88b16685aa602d02dc8b55d530aa1ff9c39e29ba4cb84b58e2e142a904",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:48.350318+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-05-01&end_date=2026-05-31&inst_ids=Au99.99",
+      "sha256": "fd64d38b50618669db0c51ca618b814531b173f9766064eb42daf501d5417d50",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:52.210652+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-06-01&end_date=2026-06-30&inst_ids=Au99.99",
+      "sha256": "c592d282663930576c6b78692f02f4dc2236f2fe396ca06baefa7c7110b56507",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:15.283678+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-06-01&end_date=2026-06-30&inst_ids=Au99.99&p=2",
+      "sha256": "7d1ec239d823a5e986c9938794b7727ae446a6511df4f044d016e17398432042",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:23:52.616689+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-07-01&end_date=2026-07-31&inst_ids=Au99.99",
+      "sha256": "5c592bd3eae794640415a90e5935691d3e201a834fa30e069d4c7ebabf47f0d6",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:21.440657+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-07-01&end_date=2026-07-31&inst_ids=Au99.99&p=2",
+      "sha256": "afed4a94346bb9b9f731a98760ab22d88c0f8fc574c8da9cec872ced955f1b9d",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:24:02.904469+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/quotation_daily_new?start_date=2026-08-01&end_date=2026-08-12&inst_ids=Au99.99",
+      "sha256": "05a3e183506bb7b1b48d7806d74d71e85c1cdad812af2bce3e5df7a0f00952c4",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:31.719738+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005167",
+      "sha256": "f19772c5bfd83d0bec22d4030098faca717ff382941ee9f7d94671cad86356ce",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:29.812901+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005173",
+      "sha256": "def7ddd6827e6f78ecffbc28eb07d180b702b673b1d094c63359c819cc27ceaa",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:29.558993+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005178",
+      "sha256": "d04a84a8eac81a417dd91d45cd38e78ac11f2c47ba93d92f251af3293bbeb2af",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:26.333454+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005184",
+      "sha256": "aa725d85e2bcc79bd592b2b08d3fb4bb266d3aed44e5f8f7cdc75622eb2d21ef",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:25.118758+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005189",
+      "sha256": "22c4ad5c1341ce40d9336931044e12d7ccbf62c3f7298fb8a1c84c54c6ea2f6c",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:21.401930+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005196",
+      "sha256": "68b6131d6c3d29a06ce6825b5f6aa29a1ec2fa388bfc0a2b4fe71c7e3d593d43",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:17.783825+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005202",
+      "sha256": "dbd856e8fbe999b26332c64637d6a7e947f1bec2602ce2cbcc057f7b50261059",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:15.330537+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005205",
+      "sha256": "0c2b36825ed86a3875f21add830707ac76645c12ce79c6f953c8c5c277d9b024",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:15.064371+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005213",
+      "sha256": "076043be8bb00c48e9132204f930dfdad0a14f77a571e74607376b16ac1d5f59",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:14.847510+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005221",
+      "sha256": "fa38af16c45e341351b8b7e5d93d6819d1d57e9e704368e4b2468b8648721975",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:08.272893+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005228",
+      "sha256": "80eb0fa2ff05e4eb5317cfc71728316b8f86594455ef030d9e310801df6981a7",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:08.038805+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005234",
+      "sha256": "b3b09fcbb45d1284acb0f68a513a89ba95848317f40df58ff5de3bb10d94440d",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:07.391894+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005239",
+      "sha256": "355d66dd3b4295057f15f8266fd25d4fa50165e831464dc47f96b87f0585d446",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:03.431809+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005245",
+      "sha256": "3ec123113395a34c56eb061b3a8e46f057708bb9e3277b0f6c96f2ab662ed4b7",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:02.927294+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005250",
+      "sha256": "c98d92c614dcfdf28b2e76f2deb0f45884e2b09f1eabdb88d0a79af264dc58db",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:00.420757+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005256",
+      "sha256": "6b191eaf3eefb201fa63eb9c423af142f144ff5c8c2c47ef1974b2cd645d8364",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:28:00.197960+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005264",
+      "sha256": "4b42179d59b860eec5de637f4cafd6cafa6abdcde4dd3f41f872ba3e304d8cbf",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:58.375288+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005267",
+      "sha256": "f377474b7747912f72b133b5e2bdbd8a7078a038dcb2790aa473a25042334019",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:55.315128+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005275",
+      "sha256": "eccb92ae4985491ca33fb0213beb570522014570a0a3e83736c65a57ecaa04d5",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:53.382357+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005280",
+      "sha256": "89c4454218582b88da34076ba99f19b81246f2753ff0ec13a6a1045da5abfc6d",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:53.164067+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005287",
+      "sha256": "9a1c1c73fc3fd5528b5763e813eb1f8e8aa9f75966d4fd42f2b05a07facdbf94",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:51.848757+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005294",
+      "sha256": "0e410555e9dd5ecfa01c8829f2c1b4857b9469d4d27848e8d88ac6d2f04c4529",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:51.558036+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005299",
+      "sha256": "504fbd09df9020b986a24a8fb05eaf1fa9bae798273972be4cd2ea8dea2a6e08",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:46.946364+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005306",
+      "sha256": "93eb796d28dd370fd5359858117f9ce0965c54a38a45dac0ec4dd06408d6c00d",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:45.950497+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005313",
+      "sha256": "28d4cb2f9b491661fd69c73c404ae41195720776fbaf549580654de29b7ae4ce",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:41.662085+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005320",
+      "sha256": "860eb2a50fb91952ed441f2021b6b58e11583504aa72895fb6e7ac0ef8c6eb4e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:40.916103+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005325",
+      "sha256": "85a4391d9ad88312e6df385299f056a188eee2625badea8bf5cc89af58e0814b",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:39.764363+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005330",
+      "sha256": "b36ed9bf1ab38dad3e218bdf073ae32ec30b535aec2a00c0606039d1bcefc2c1",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:37.664827+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005336",
+      "sha256": "d556c33eef66d2ff4127f0768e897c155a265562f6bb47c86609fc9e8d7eecf7",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:36.048925+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005344",
+      "sha256": "90cb503e5200be9c1e9ebd2e0b29402bbbec184094126e1559df1eee45211532",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:33.948995+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005352",
+      "sha256": "113f71f02e84616031b504b206c11dec64851a8143201ae7a07cd46cf28e55ac",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:32.933406+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005358",
+      "sha256": "5b04731e65f4a60bb7896e2005010098296516cf5678b205b59ca5d91f4e1203",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:32.642613+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005363",
+      "sha256": "67746966a53b4cf74d1aa4aadef5f2e1ca647c6178d1fc6e29e1b91aaeaec962",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:32.157945+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005372",
+      "sha256": "dc6a5fdea7c6495edc0f1f71539f75910220023119d0615778ccd00a46e2e5a9",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:28.180860+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005382",
+      "sha256": "23862835c15e346d2890485bb37c4bd70fb17179a21eb39b0f80f039f0fe964b",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:27.106889+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005388",
+      "sha256": "2c78b976237ecd6baea2f35e32ff41fb82144d3d24f94581373d12337fa01510",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:26.415547+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005397",
+      "sha256": "f7c7e720998fff0654b263c3fd64a6e511a9f5bd1a7a411e93e62713451a8d74",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:25.012952+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005402",
+      "sha256": "6f9da29a3135f87c0abc492a4d6c9b9fa11e95ec186422c4fa14b0ef20a45560",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:24.188019+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005407",
+      "sha256": "b472b7085988f1bded79c2b8306a249201b75167b3351f72235b8e80f3298b33",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:18.313440+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005414",
+      "sha256": "88666de572402629252007912c89054340df45c2501a1bb00b87c9b78114ea0d",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:13.747047+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005418",
+      "sha256": "36c487b64f88cd5a7ac0a99beb583607105c0faff20b737830d29bba9cede47c",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:12.344792+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005425",
+      "sha256": "fca5bd367be3f80b575899a4b95f3b14439b0e4cb9e28bfda38875e25fa261a4",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:11.563408+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005430",
+      "sha256": "7c672df6fcbe33b610281016aa717cf2d8a7be1a2dbd2fc7e05647ff73f517d1",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:10.499893+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005436",
+      "sha256": "17fdab93d1b78c97bf041bd50d2b9dbaf13a53b53d050aaf0ea191ac762a732b",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:06.263720+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005443",
+      "sha256": "a679c988423322b6ec9b8cdb013ff218b585ffcf338c30b41c5cbe004aa38678",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:05.980633+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005449",
+      "sha256": "25147865c0f59974d4505536d49adbe23553220c7e45e5045c90b1df2211780e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:04.553210+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005454",
+      "sha256": "b85e266de1f2a75a3b3fb105a4d005d987084914c736a1f96e57a8c73449aa7c",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:27:01.279896+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005459",
+      "sha256": "723e1973a33ce140312676831484672a73bc13cfd829ec7102d1b07dae94f1a9",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:59.573448+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005465",
+      "sha256": "f96c18de4cef675a89b965838692d1746d17361e92454961f6b25bddbca39258",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:56.275821+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005471",
+      "sha256": "05e5d7a059a8cde09406f511824377865bbe6fcf3d4b48493178b905b2b6e765",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:54.682062+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005478",
+      "sha256": "14b8108cf1585172360cc92b36d9c2572f6de79181149706b6db73ce619e85dc",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:54.153047+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005483",
+      "sha256": "9a69ad8e3644e83466407e9502f6bb8cc43c2d88d8b54d71449c9aa12964ee9a",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:48.635088+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005488",
+      "sha256": "de38b4beaf316a477c9473b80fbff05a0f4d3c02bab103b5c6b6a399cab73c6f",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:48.470494+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005493",
+      "sha256": "8e6bb71512162278ca41048e861fd3c6c8a1a8c855b1dd80a7eb45cc2f5bba42",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:48.010975+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005500",
+      "sha256": "597678e144c9ed13d355de51e3938fe8e9c7d2c3d6aba8205520f87291e848d0",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:46.297607+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005510",
+      "sha256": "48ff8fbc1279c99a6210512221d328feec3039bc87cefc2cfe3a69821a0c32f5",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:43.101477+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005513",
+      "sha256": "2c7f0d2e0e1ac8553bdeec88d83997a167dad59a774a9a08d97d1d22260d1943",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:40.680433+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005522",
+      "sha256": "4b7a44dbd79a8b022685582780ad9f7c99fececdf4dad30881501f8b7db4e964",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:40.390801+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005529",
+      "sha256": "17269994cc17dcb34f0664b3299936a000b564f085befc16fefa2a3f20b68911",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:39.468339+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005542",
+      "sha256": "990e66e71140f9aaad23efae371069ffeed066245fa389d1e451210a9be812f1",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:34.644551+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005549",
+      "sha256": "daa179d15e6407e74089be50d2f04e3dc6fa0e3835234055e37fa1873dbc92b2",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:34.475699+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005554",
+      "sha256": "b1592d2727e3d8651762f2366e64031be390e43da75765fecfe40e57d0921141",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:30.354732+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005559",
+      "sha256": "2ed57331268e5d598cd78a3a7945c01211cb91036f1d08847097bc0f68951f7a",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:29.509561+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005567",
+      "sha256": "a3e722201a41da32c13fb97aff0d171c0c45d665a1db8fbbe742f2b4abe87a52",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:28.105490+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005577",
+      "sha256": "4f10ce88a5e06b7af01bd78a06d1c459bd4d9bd38338584ddb4922a556218b0c",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:27.441547+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005583",
+      "sha256": "177961719b0d719d3cda6d985522b89d20806d21a615e7bb0f29c3da3247bfb4",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:18.608155+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005588",
+      "sha256": "62ba81f2f679593473e77562b5eebe75bdb26736c29bc3e415255d9414c9686b",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:16.124582+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005592",
+      "sha256": "3ddd58db01cb6f30a74a96d823990001d8d43e48325e249032be875ecdb688b5",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:15.863830+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005597",
+      "sha256": "45d20bfa682777c0d0c08028e3dae1a3a59a891ee6501306173343e2285b9656",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:15.780088+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005603",
+      "sha256": "ba8ecd1aff7ed594739a54cbce0ed5e7a5d3f2d4bc2417c18c297e05db5d5eaa",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:11.110006+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005609",
+      "sha256": "d2b881e4c4b0ff618e3c5ef4dc62a0c0e64614096ec7fd3470e794b328afd1da",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:09.663414+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005614",
+      "sha256": "363b6a1b2c5fe48afd14a0c5e4981cd82e82c1d0daf45a3820100b717c3b7bdc",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:09.349278+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005617",
+      "sha256": "ab3ea222f7fa72adac7b602e0c5f8586a7c8082ce3a8b054f0b2cb29246eca75",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:07.565384+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005625",
+      "sha256": "1e679ab2a7f77f3e9a06f1c8271d8405e5081a51166de7ebb735dbf4aaf24558",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:26:00.649638+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005633",
+      "sha256": "f539e8e062091046eda565e4d65f9eb8f3ae14b06cbe3a52b72fb19e1ee92739",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:59.968567+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005639",
+      "sha256": "847485d5d554e0a0ae90da8cdd4d8145ba4d14e214e5e7c90665a062201fa550",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:59.751470+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005644",
+      "sha256": "efcaed38f8e82aaf25d9ed98a910d95d88b778514e56d04fe59d098a3d5da915",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:57.324203+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005651",
+      "sha256": "ed668e86f788dfa1829d9fbaaa0476355baa9a136b67c4bb3a5f583cd0e423df",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:54.783044+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005656",
+      "sha256": "ff169d76e94ce2785667549c661f6a120593d307401f0cd9fab4f851e1bbad90",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:52.849125+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005663",
+      "sha256": "d7ffb95e8a448e8fafaa04dc127d79b09750cb2d4627806d0388899510aedb76",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:50.177061+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005670",
+      "sha256": "54ad36c670261feb7565b7e2f8d5d008f908261dce3d60a31e7dd25c0283ede3",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:49.777474+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005677",
+      "sha256": "4d19142608fd3bc37394a827783cb5b06f8162b21496270dbe13099536c98466",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:47.205582+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005683",
+      "sha256": "7e020e842a9ee8c9ef3d6b79725d58c4030be47642564f408b626a17028f9d28",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:45.851455+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005691",
+      "sha256": "4326069a3fa5934dfc754245abcff3a186ed522f98cebf3e0acc3c18c1aaa5c3",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:44.664190+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005700",
+      "sha256": "2aaf5a767a48d89d83a0ee272865a7418554e329503934b447f7922425a226ec",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:41.456085+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005704",
+      "sha256": "330d50599d6e06431bf0053320273466bd8c7bf4425f392e345d4a5a752902d6",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:38.512512+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005712",
+      "sha256": "1a541c6fae3ecbf41b5d940d2f93b85502f87bd2b0c336402e2e313e1a6d051e",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:34.465217+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005720",
+      "sha256": "7c7dfe08004b6313bf78c36759966f0c07061bb31abfb96131976eafbfb71126",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:33.493492+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005727",
+      "sha256": "2fd753a4959e1038a07e65ddaee8cba474adce849b1ed323d0c5d8eccb4d0ac1",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:33.376870+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005734",
+      "sha256": "136f89152459a9400b690cc21fd38f7482d4aea81ce53949e0d9d4a9ebaca226",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:31.521284+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005740",
+      "sha256": "973e73db2c995d1e63335b22b8a1608b66bda2bbbe8d73b20d95d826eda32fa0",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:27.381014+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005747",
+      "sha256": "7e87b3cb68c35f053c49bac3393d3c093faec08e407047e17b6416f1abe93a1a",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:26.614174+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005752",
+      "sha256": "ded9df9ba9e484686ca202e61b8d70b03e8d3c27e940a06eaa64d77c6f98b28f",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    },
+    {
+      "source": "Shanghai Gold Exchange official",
+      "price_basis": "Au99.99_spot_close_not_weighted_average",
+      "retrieval_timestamp": "2026-09-12T04:25:23.079770+00:00",
+      "requested_start": "2023-08-14",
+      "requested_end": "2026-08-12",
+      "request_url": "https://www.sge.com.cn/sjzx/mrhqsj/10005759",
+      "sha256": "71b090c5ea288b1ee43419ef5dd673b7795c7519f097ad51fe57979599dde9f8",
+      "date_request_note": "Analysis bounds; some provider endpoints return full history. Exact URL retained."
+    }
+  ],
+  "corporate_actions": [
+    {
+      "date": "2024-01-18T00:00:00.000",
+      "cash_per_share": 0.069,
+      "source_text": "分红：每份派现金0.069元",
+      "ticker": "510300.SS"
+    },
+    {
+      "date": "2025-06-18T00:00:00.000",
+      "cash_per_share": 0.088,
+      "source_text": "分红：每份派现金0.088元",
+      "ticker": "510300.SS"
+    },
+    {
+      "date": "2026-01-19T00:00:00.000",
+      "cash_per_share": 0.123,
+      "source_text": "分红：每份派现金0.123元",
+      "ticker": "510300.SS"
+    },
+    {
+      "date": "2024-05-17T00:00:00.000",
+      "cash_per_share": 0.087,
+      "source_text": "分红：每份派现金0.087元",
+      "ticker": "510500.SS"
+    },
+    {
+      "date": "2025-01-16T00:00:00.000",
+      "cash_per_share": 0.091,
+      "source_text": "分红：每份派现金0.091元",
+      "ticker": "510500.SS"
+    },
+    {
+      "date": "2026-01-16T00:00:00.000",
+      "cash_per_share": 0.062,
+      "source_text": "分红：每份派现金0.062元",
+      "ticker": "510500.SS"
+    },
+    {
+      "date": "2026-07-15T00:00:00.000",
+      "cash_per_share": 0.149,
+      "source_text": "分红：每份派现金0.149元",
+      "ticker": "510500.SS"
+    },
+    {
+      "date": "2025-09-23T00:00:00.000",
+      "cash_per_share": 1.45,
+      "source_text": "分红：每份派现金1.45元",
+      "ticker": "511010.SS"
+    },
+    {
+      "date": "2025-12-26T00:00:00.000",
+      "cash_per_share": 0.6542,
+      "source_text": "分红：每份派现金0.6542元",
+      "ticker": "511010.SS"
+    },
+    {
+      "date": "2026-03-25T00:00:00.000",
+      "cash_per_share": 0.5715,
+      "source_text": "分红：每份派现金0.5715元",
+      "ticker": "511010.SS"
+    },
+    {
+      "date": "2026-06-25T00:00:00.000",
+      "cash_per_share": 0.8144,
+      "source_text": "分红：每份派现金0.8144元",
+      "ticker": "511010.SS"
+    }
+  ],
+  "nav_data_quality": [
+    {
+      "ticker": "510300.SS",
+      "source": "Eastmoney unit NAV",
+      "observations": 728,
+      "first_date": "2023-08-14",
+      "last_date": "2026-08-12",
+      "non_session_dates": [
+        "2023-12-31",
+        "2024-06-30"
+      ],
+      "missing_sessions": 0,
+      "cash_event_count": 3
+    },
+    {
+      "ticker": "510500.SS",
+      "source": "Eastmoney unit NAV",
+      "observations": 728,
+      "first_date": "2023-08-14",
+      "last_date": "2026-08-12",
+      "non_session_dates": [
+        "2023-12-31",
+        "2024-06-30"
+      ],
+      "missing_sessions": 0,
+      "cash_event_count": 4
+    },
+    {
+      "ticker": "159915.SZ",
+      "source": "Eastmoney unit NAV",
+      "observations": 728,
+      "first_date": "2023-08-14",
+      "last_date": "2026-08-12",
+      "non_session_dates": [
+        "2023-12-31",
+        "2024-06-30"
+      ],
+      "missing_sessions": 0,
+      "cash_event_count": 0
+    },
+    {
+      "ticker": "518880.SS",
+      "source": "Eastmoney unit NAV",
+      "observations": 728,
+      "first_date": "2023-08-14",
+      "last_date": "2026-08-12",
+      "non_session_dates": [
+        "2023-12-31",
+        "2024-06-30"
+      ],
+      "missing_sessions": 0,
+      "cash_event_count": 0
+    },
+    {
+      "ticker": "511010.SS",
+      "source": "Eastmoney unit NAV",
+      "observations": 728,
+      "first_date": "2023-08-14",
+      "last_date": "2026-08-12",
+      "non_session_dates": [
+        "2023-12-31",
+        "2024-06-30"
+      ],
+      "missing_sessions": 0,
+      "cash_event_count": 4
+    }
+  ],
+  "limitations": [
+    "Six events verified using issuer or official disclosure-hosted PDFs. July2026 510500 issuer PDF is hosted by China Reform Securities; official SSE independently confirms ex-date, not cash amount.",
+    "Vendor event list has no split in requested period. This is not independent official verification that no split or unlisted distribution occurred.",
+    "Cash distributions are paid after ex-date. A reinvested NAV total-return series is a theoretical ex-date reinvestment convention, not actual ETF automatic dividend reinvestment; announcements specify cash distributions.",
+    "Official mapping history before cited documents not independently exhaustively certified.",
+    "510300/510500 NAV total return assumes vendor event completeness; known cash events corroborated.",
+    "Gold NAV valuation time unverified; all strict tracking fields suppressed.",
+    "Bond clean-price official benchmark differs from reinvested NAV; all strict tracking fields suppressed.",
+    "Pairwise longest complete block may differ across ETFs; no common five-ETF ranking sample.",
+    "Retrospective research, not point-in-time investable returns; no index construction or trading model."
+  ],
+  "transformation": "market: verified provider close; ETF: original NAV/cash-reinvestment or E Fund growth parser; benchmark: original index/SGE close parsers; no rounding, imputation or synthetic observations",
+  "evidence_scope": "Normalized numerical inputs plus source URLs/hashes. Recomputes calculations; original raw response and PDF audit chain are not distributed."
+}

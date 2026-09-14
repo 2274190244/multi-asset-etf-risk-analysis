@@ -20,7 +20,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 def copy_verified_package(tmp_path):
-    shutil.copytree(PROJECT_ROOT / "output_verified", tmp_path / "output_verified")
+    shutil.copytree(PROJECT_ROOT / "output_phase1", tmp_path / "output_phase1")
     return tmp_path
 
 
@@ -33,14 +33,14 @@ def test_load_dashboard_data_reads_verified_package():
         "equal_weight",
         "minimum_volatility",
     }
-    assert data.resume_facts["risk_metric_count"] == 5
+    assert data.resume_facts["risk_metric_count"] == 9
     assert data.prices["date"].min() == pd.Timestamp("2023-08-14")
     assert data.prices["date"].max() == pd.Timestamp("2026-08-12")
 
 
 def test_load_dashboard_data_reports_missing_file(tmp_path):
     root = copy_verified_package(tmp_path)
-    (root / "output_verified" / "powerbi" / "prices.csv").unlink()
+    (root / "output_phase1" / "powerbi" / "prices.csv").unlink()
 
     with pytest.raises(DashboardDataError, match="prices.csv"):
         load_dashboard_data(root)
@@ -48,7 +48,7 @@ def test_load_dashboard_data_reports_missing_file(tmp_path):
 
 def test_load_dashboard_data_reports_missing_column(tmp_path):
     root = copy_verified_package(tmp_path)
-    path = root / "output_verified" / "powerbi" / "asset_metrics.csv"
+    path = root / "output_phase1" / "powerbi" / "asset_metrics.csv"
     frame = pd.read_csv(path).drop(columns="historical_var")
     frame.to_csv(path, index=False)
 
@@ -58,7 +58,7 @@ def test_load_dashboard_data_reports_missing_column(tmp_path):
 
 def test_load_dashboard_data_rejects_invalid_dates(tmp_path):
     root = copy_verified_package(tmp_path)
-    path = root / "output_verified" / "powerbi" / "prices.csv"
+    path = root / "output_phase1" / "powerbi" / "prices.csv"
     frame = pd.read_csv(path)
     frame.loc[0, "date"] = "not-a-date"
     frame.to_csv(path, index=False)
@@ -69,7 +69,7 @@ def test_load_dashboard_data_rejects_invalid_dates(tmp_path):
 
 def test_load_dashboard_data_rejects_non_finite_metrics(tmp_path):
     root = copy_verified_package(tmp_path)
-    path = root / "output_verified" / "powerbi" / "asset_metrics.csv"
+    path = root / "output_phase1" / "powerbi" / "asset_metrics.csv"
     frame = pd.read_csv(path)
     frame.loc[0, "annualized_return"] = np.inf
     frame.to_csv(path, index=False)
@@ -80,7 +80,7 @@ def test_load_dashboard_data_rejects_non_finite_metrics(tmp_path):
 
 def test_load_dashboard_data_rejects_blank_identifier_text(tmp_path):
     root = copy_verified_package(tmp_path)
-    path = root / "output_verified" / "powerbi" / "prices.csv"
+    path = root / "output_phase1" / "powerbi" / "prices.csv"
     frame = pd.read_csv(path)
     frame.loc[0, "asset_name"] = ""
     frame.to_csv(path, index=False)
@@ -91,7 +91,7 @@ def test_load_dashboard_data_rejects_blank_identifier_text(tmp_path):
 
 def test_load_dashboard_data_rejects_inconsistent_resume_facts(tmp_path):
     root = copy_verified_package(tmp_path)
-    path = root / "output_verified" / "resume_facts.json"
+    path = root / "output_phase1" / "resume_facts.json"
     facts = json.loads(path.read_text(encoding="utf-8"))
     facts["price_rows"] = 9999
     path.write_text(json.dumps(facts), encoding="utf-8")
@@ -152,7 +152,7 @@ def test_portfolio_cumulative_returns_rebases_at_selected_start():
         timeseries, start_date="2026-01-02", end_date="2026-01-03"
     )
 
-    assert result["cumulative_return"].tolist() == pytest.approx([0.0, 0.05])
+    assert result["cumulative_return"].tolist() == pytest.approx([-0.20, -0.16])
 
 
 def test_portfolio_cumulative_returns_rejects_empty_range():

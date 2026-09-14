@@ -25,3 +25,27 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+.audit_tmp/
+.audit_deps/
+
+# Generated research result packages and local test artifacts
+/output_verified/
+/output_phase*/
+/research_results*/
+/.research-*/
+/.t*/
+
+# Keep final phase reports, but not generated audit logs, snapshots, or raw responses
+/docs/audit/*
+!/docs/audit/phase1_report.md
+!/docs/audit/phase2_report.md
+!/docs/audit/phase3_report.md
+!/docs/audit/phase4_report.md
+!/docs/audit/phase5_report.md
+!/docs/audit/phase6_report.md
+!/docs/audit/phase7_report.md
+!/docs/audit/phase7_deployment_report.md
+
+# Local implementation-planning artifacts
+/docs/superpowers/plans/
